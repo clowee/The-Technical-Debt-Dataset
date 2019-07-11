@@ -19,7 +19,7 @@ Plain Citation
 
 Valentina Lenarduzzi, Nyyti Saarimäki, Davide Taibi. The Technical Debt Dataset. Proceedings for the 15th Conference on Predictive Models and Data Analytics in Software Engineering. Brazil. 2019. 
 
-*Bibtex: 
+Bibtex: 
 
 ```
 @INPROCEEDINGS{Lenarduzzi2019,
