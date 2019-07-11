@@ -13,13 +13,7 @@ This is the official repository of the "Tecnical Debt Dataset"[1].
 * **[How to contribute](#how-to-contribute)**
 
 ## How to cite 
-
-
-Plain Citation
-
 Valentina Lenarduzzi, Nyyti Saarimäki, Davide Taibi. The Technical Debt Dataset. Proceedings for the 15th Conference on Predictive Models and Data Analytics in Software Engineering. Brazil. 2019. 
-
-Bibtex: 
 
 ```
 @INPROCEEDINGS{Lenarduzzi2019,
