@@ -8,6 +8,7 @@ This is the official repository of the "Technical Debt Dataset" [1].
 * **[What is it](#What-is-it)**
 * **[How to cite the Technical Debt Dataset](#how-to-cite)**
 * **[How to contribute](#how-to-contribute)**
+* **[Usage](#usage)**
 * **[References](#references)**
 
 ## What is it
