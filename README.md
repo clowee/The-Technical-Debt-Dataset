@@ -44,9 +44,9 @@ The _Technical Debt Dataset_ is licensed under a Creative Commons Attribution-No
  ## Usage
 The _Technical Debt Dataset_ has been used in different works: 
 
-* Nyyti Saarimäki, Valentina Lenarduzzi, and Davide Taibi. 2019. On the diffuseness of code technical debt in open source projects of the Apache Ecosystem.International Conference on Technical Debt (TechDebt 2019) 2019.
+* Nyyti Saarimäki, Valentina Lenarduzzi, and Davide Taibi. 2019. On the diffuseness of code technical debt in open source projects of the Apache Ecosystem. International Conference on Technical Debt (TechDebt 2019) 2019.
 
-* Valentina Lenarduzzi, Antonio Martini, Davide Taibi, and Damian Andrew Tam-burri. 2019. Towards Surgically-Precise Technical Debt Estimation: Early Resultsand Research Roadma. In2019 IEEE Workshop on Machine Learning Techniquesfor Software Quality Evaluation (MaLTeSQuE)
+* Valentina Lenarduzzi, Antonio Martini, Davide Taibi, and Damian Andrew Tamburri. 2019. Towards Surgically-Precise Technical Debt Estimation: Early Results and Research Roadmap. In2019 IEEE Workshop on Machine Learning Techniques for Software Quality Evaluation (MaLTeSQuE)
 
 * Valentina Lenarduzzi, Francesco Lomio, Davide Taibi, and Heikki Huttunen. 2019.On the Fault Proneness of SonarQube Technical Debt Violations: A comparison of eight Machine Learning Techniques.  arXiv:1907.00376
 
