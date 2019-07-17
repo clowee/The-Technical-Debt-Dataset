@@ -1,7 +1,8 @@
 # The Technical Debt Dataset
 
 This is the official repository of the "Technical Debt Dataset" [1]. 
-The current release is 1.0 [download here](download link)
+
+The current release is 1.0 [download here](http://github.com/download link)
 
 
 
