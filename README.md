@@ -34,7 +34,19 @@ Valentina Lenarduzzi, Nyyti Saarimäki, Davide Taibi. The Technical Debt Dataset
 ```
 
 ## How to contribute
+If you analyzed a project with SonarQube and you are interested to share your data in our dataset, please send us an email ( davide [dot] taibi [ at ] tuni [ dot ] fi
 
+To integrate your analysis please, report the following information 
+* sonarqube_version
+* project_name
+* development_language
+* github_url
+* analyzed branch
+* jira url 
+
+We will run the SZZ tool and refactoring miner 1.0.0 on your repository and integrate your data in a new release of the dataset. 
+
+We are also looking for contributors to automate the analysis pipeline. If you are interested to contribute, send us a message. 
 
 ## License
 The Technical Debt Dataset has been developed only for research purposes. It includes the historical analysis of each public repository, including commit messages, timestamps, author names, and email addresses. Information from GitHub is stored in accordance with GitHub Terms of Service (GHTS), which explicitly allow extracting and redistributing public information for research purposes ([GitHub Terms of Service](goo.gl/yeZh1E) Accessed: May 2019). 
