@@ -8,7 +8,7 @@ This is the official repository of the "Technical Debt Dataset" [1].
 * **[What is it](#What-is-it)**
 * **[How to cite the Technical Debt Dataset](#how-to-cite)**
 * **[How to contribute](#how-to-contribute)**
-* **[Usage](#usage)**
+* **[Empirical studies based on the Technical Debt Dataset](#Empirical-studies-based-on-the-Technical-Debt-Dataset)**
 * **[References](#references)**
 
 ## What is it
@@ -41,7 +41,7 @@ The Technical Debt Dataset has been developed only for research purposes. It inc
 
 The _Technical Debt Dataset_ is licensed under a Creative Commons Attribution-NonCommercial- ShareAlike 4.0 International license.
 
- ## Usage
+ ## Empirical studies based on the Technical Debt Dataset
 The _Technical Debt Dataset_ has been used in different works: 
 
 * Nyyti Saarimäki, Valentina Lenarduzzi, and Davide Taibi. 2019. On the diffuseness of code technical debt in open source projects of the Apache Ecosystem. International Conference on Technical Debt (TechDebt 2019) 2019.
