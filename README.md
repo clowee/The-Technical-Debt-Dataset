@@ -10,7 +10,7 @@ The current release is 1.0
 
 ## Table of contents
 * **[What is it](#What-is-it)**
-* **[## How to use it](#How-to-use-it)**
+* **[How to use it](#How-to-use-it)**
 * **[How to cite the Technical Debt Dataset](#how-to-cite)**
 * **[How to contribute](#how-to-contribute)**
 * **[Empirical studies based on the Technical Debt Dataset](#Empirical-studies-based-on-the-Technical-Debt-Dataset)**
@@ -20,7 +20,7 @@ The current release is 1.0
 
 Technical Debt Dataset is a curated dataset containing measurement data from four tools executed on all commits to enable researchers to work on a common set of data and thus compare their results.
 
-The dataset was built by extracting the projects' data and analyzing all the commit using several tools. To get the data, the projects' GitHub repositories were cloned, commit information was collected from the git log using [PyDriller](https://github.com/ishepard/pydriller), refactorings were classified using [Refatoring Miner](https://github.com/tsantalis/RefactoringMiner), and issue information was obtained by extracting issues from the Jira issue tracker. After that, code quality was inspected using two tools: Technical Debt items were analyzed with [SonarQube](https://www.sonarqube.org/), and code smells [2] and anti-patterns [3] with [Ptidej](http://www.ptidej.net/). In addition, the fault-inducing and -fixing commits were identified by applying [our implementation](https://github.com/clowee/OpenSZZ) of the SZZ algorithm [4].
+The dataset was built by extracting the projects' data and analyzing all the commit using several tools. To get the data, the projects' GitHub repositories were cloned, commit information was collected from the git log using [PyDriller](https://github.com/ishepard/pydriller), refactorings were classified using [Refactoring Miner](https://github.com/tsantalis/RefactoringMiner), and issue information was obtained by extracting issues from the Jira issue tracker. After that, code quality was inspected using two tools: Technical Debt items were analyzed with [SonarQube](https://www.sonarqube.org/), and code smells [2] and anti-patterns [3] with [Ptidej](http://www.ptidej.net/). In addition, the fault-inducing and -fixing commits were identified by applying [our implementation](https://github.com/clowee/OpenSZZ) of the SZZ algorithm [4].
 
  
 
