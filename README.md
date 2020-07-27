@@ -50,6 +50,7 @@ GROUP BY SONAR_ISSUES.projectID
 
 
 
+
 **Get the commit message and author of all the commits fixing a SonarQube issue in any branch.**
 
 ```sql
