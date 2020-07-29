@@ -134,12 +134,14 @@ def query_server(type, iter=1, project_key=None, metric_list=[], from_ts=None):
     elif type == 'issues':
         element_list = r_dict['issues']
         total_num_elements = r_dict['paging']['total']
-
+    # print(metric_list)
     if iter * page_size < total_num_elements:
         if type == 'measures':
             element_list = concat_measures(element_list, query_server(type, iter + 1, project_key,
                                                                       metric_list=metric_list, from_ts=from_ts))
         else:
+            if type == 'issues' and iter * page_size >= 10000:
+                return element_list
             element_list = element_list + query_server(type, iter + 1, project_key, from_ts=from_ts)
 
     return element_list
@@ -262,6 +264,8 @@ def safe_cast(val, to_type, contain_comma=False, list_with_semicolon=False):
 
 
 def extract_measures_value(measures, metrics_order_type, columns, data):
+    length_of_history = max(map(lambda s: len(s['history']), measures))
+
     for measure in measures:
         metric = measure['metric']
         metric_type = metrics_order_type[metric][1]
@@ -284,6 +288,10 @@ def extract_measures_value(measures, metrics_order_type, columns, data):
 
         values.reverse()
         values = values[:len(data['analysis_key'])]
+
+        if len(values) < length_of_history:
+            for i in range(length_of_history - len(values)):
+                values.append(None)
 
         # Resolving None Integer values
         if SONAR_MEASURES_DTYPE[metric] == "Int64":
@@ -474,7 +482,7 @@ def fetch_sonar_data(output_path):
 
     print("Total: {0} projects.".format(len(project_list)))
     i = 0
-    for project in [project_list[1]]:
+    for project in project_list:
         with open('./projects.csv', 'w') as f:
             f.write("organization,id,key,name,qualifier\n")
             f.write("{},{},{},{},{}\n".format(
