@@ -10,8 +10,8 @@ import numpy as np
 import os
 import csv
 
-SERVER = "http://sonar63.rd.tut.fi/"
-ORGANIZATION = "default-organization"
+SERVER = "https://sonarcloud.io/"
+ORGANIZATION = "apache"
 SONAR_MEASURES_DTYPE = OrderedDict({
     'project': 'object',
     'analysis_key': 'object',
@@ -57,6 +57,146 @@ TYPE_CONVERSION = {
     "LEVEL": 'float64'
 }
 
+MISSING_IN_HUNGS_SCRIPT = [
+    "Structure101_Web_Application_URL",
+    "accessors",
+    "afferent-couplings",
+    "arch-diagrams",
+    "arch_violations",
+    "arch_violations_weighted",
+    "burned_budget",
+    "business_value",
+    "class_complexity_distribution",
+    "commented_out_code_lines",
+    "conditions_by_line",
+    "coverage_line_hits_data",
+    "covered_conditions_by_line",
+    "efferent-couplings",
+    "fat_class",
+    "fat_design",
+    "fat_leaf_package",
+    "fat_method",
+    "fat_method_list",
+    "it_branch_coverage",
+    "it_conditions_by_line",
+    "it_conditions_to_cover",
+    "it_coverage",
+    "it_coverage_line_hits_data",
+    "it_covered_conditions_by_line",
+    "it_line_coverage",
+    "it_lines_to_cover",
+    "it_uncovered_conditions",
+    "it_uncovered_lines",
+    "java_count",
+    "missing_package_info",
+    "missing_package_info_count",
+    "new_it_branch_coverage",
+    "new_it_conditions_to_cover",
+    "new_it_coverage",
+    "new_it_line_coverage",
+    "new_it_lines_to_cover",
+    "new_it_uncovered_conditions",
+    "new_it_uncovered_lines",
+    "new_overall_branch_coverage",
+    "new_overall_conditions_to_cover",
+    "new_overall_coverage",
+    "new_overall_line_coverage",
+    "new_overall_lines_to_cover",
+    "new_overall_uncovered_conditions",
+    "new_overall_uncovered_lines",
+    "number-of-classes-and-interfaces",
+    "overall_branch_coverage",
+    "overall_conditions_by_line",
+    "overall_conditions_to_cover",
+    "overall_coverage",
+    "overall_coverage_line_hits_data",
+    "overall_covered_conditions_by_line",
+    "overall_line_coverage",
+    "overall_lines_to_cover",
+    "overall_uncovered_conditions",
+    "overall_uncovered_lines",
+    "package",
+    "package-dependency-cycles",
+    "package_count",
+    "package_info_count",
+    "s101.buildbreaker",
+    "s101_model_alignment",
+    "s101_model_class_mappings",
+    "s101_model_name",
+    "s101_model_refactoring_actions",
+    "s101_model_sequential_actions",
+    "sg_i.ARCHITECTURE_FEATURE_AVAILABLE,"
+    "sg_i.CORE_ACD",
+    "sg_i.CORE_ARTIFACT_COUNT",
+    "sg_i.CORE_BIGGEST_COMPONENT_CYCLE_GROUP",
+    "sg_i.CORE_CCD",
+    "sg_i.CORE_CODE_COMMENT_LINES",
+    "sg_i.CORE_COMMENT_LINES",
+    "sg_i.CORE_COMPONENTS",
+    "sg_i.CORE_COMPONENT_CYCLE_GROUPS",
+    "sg_i.CORE_COMPONENT_DEPENDENCIES_TO_REMOVE_COMPONENTS",
+    "sg_i.CORE_CYCLICITY_COMPONENTS",
+    "sg_i.CORE_CYCLIC_COMPONENTS",
+    "sg_i.CORE_DUPLICATED_LINES",
+    "sg_i.CORE_DUPLICATES",
+    "sg_i.CORE_EMPTY_ARTIFACT_COUNT",
+    "sg_i.CORE_IGNORED_CYCLIC_COMPONENTS",
+    "sg_i.CORE_IGNORED_DUPLICATES",
+    "sg_i.CORE_IGNORED_THRESHOLD_VIOLATIONS",
+    "sg_i.CORE_IGNORED_VIOLATIONS_PARSER_DEPENDENCIES",
+    "sg_i.CORE_LINES_OF_CODE",
+    "sg_i.CORE_MAX_ACD",
+    "sg_i.CORE_NCCD",
+    "sg_i.CORE_PARSER_DEPENDENCIES_TO_REMOVE_COMPONENTS",
+    "sg_i.CORE_RACD",
+    "sg_i.CORE_RELATIVE_CYCLICITY_COMPONENTS",
+    "sg_i.CORE_SOURCE_ELEMENT_COUNT",
+    "sg_i.CORE_STATEMENTS",
+    "sg_i.CORE_STRUCTURAL_DEBT_INDEX_COMPONENTS",
+    "sg_i.CORE_THRESHOLD_VIOLATIONS",
+    "sg_i.CORE_TOTAL_LINES",
+    "sg_i.CORE_UNASSIGNED_COMPONENTS",
+    "sg_i.CORE_VIOLATING_COMPONENTS",
+    "sg_i.CORE_VIOLATIONS_COMPONENT_DEPENDENCIES",
+    "sg_i.CORE_VIOLATIONS_PARSER_DEPENDENCIES",
+    "sg_i.CURRENT_VIRTUAL_MODEL",
+    "sg_i.JAVA_BIGGEST_PACKAGE_CYCLE_GROUP",
+    "sg_i.JAVA_BYTE_CODE_INSTRUCTIONS",
+    "sg_i.JAVA_COMPONENT_DEPENDENCIES_TO_REMOVE_PACKAGES",
+    "sg_i.JAVA_CYCLICITY_PACKAGES",
+    "sg_i.JAVA_CYCLIC_PACKAGES",
+    "sg_i.JAVA_CYCLIC_PACKAGES_PERCENT",
+    "sg_i.JAVA_IGNORED_CYCLIC_PACKAGES",
+    "sg_i.JAVA_PACKAGES",
+    "sg_i.JAVA_PACKAGE_CYCLE_GROUPS",
+    "sg_i.JAVA_PARSER_DEPENDENCIES_TO_REMOVE_PACKAGES",
+    "sg_i.JAVA_RELATIVE_CYCLICITY_PACKAGES",
+    "sg_i.JAVA_STRUCTURAL_DEBT_INDEX_PACKAGES",
+    "sg_i.MAX_MODULE_NCCD",
+    "sg_i.NUMBER_OF_CRITICAL_ISSUES_WITHOUT_RESOLUTION",
+    "sg_i.NUMBER_OF_IGNORED_CRITICAL_ISSUES",
+    "sg_i.NUMBER_OF_ISSUES",
+    "sg_i.NUMBER_OF_PARSER_DEPENDENCIES_AFFECTED_BY_REFACTORINGS",
+    "sg_i.NUMBER_OF_REFACTORINGS",
+    "sg_i.NUMBER_OF_RESOLUTIONS",
+    "sg_i.NUMBER_OF_TASKS",
+    "sg_i.NUMBER_OF_THRESHOLD_VIOLATIONS",
+    "sg_i.NUMBER_OF_UNAPPLICABLE_REFACTORINGS",
+    "sg_i.NUMBER_OF_UNAPPLICABLE_RESOLUTIONS",
+    "sg_i.NUMBER_OF_UNAPPLICABLE_TASKS",
+    "sg_i.NUMBER_OF_WORKSPACE_WARNINGS",
+    "sg_i.PERCENTAGEOFDEADCODE",
+    "sg_i.STRUCTURAL_DEBT_COST",
+    "sg_i.UNASSIGNED_COMPONENTS_PERCENT",
+    "sg_i.VIOLATING_COMPONENTS_PERCENT",
+    "sg_i.VIRTUAL_MODEL_FEATURE_AVAILABLE",
+    "tangle_design",
+    "team_size",
+    "test_data",
+    "xs",
+    "xs_percent"
+]
+
 
 def write_metrics_file(metric_list):
     metric_list.sort(key=lambda x: ('None' if 'domain' not in x else x['domain'], int(x['id'])))
@@ -78,9 +218,13 @@ def write_metrics_file(metric_list):
             ))
 
 
-def query_server(type, iter=1, project_key=None, metric_list=[], from_ts=None):
-    page_size = 200
+def query_server(type, iter=1, project_key=None, metric_list=None, from_ts=None, issue_type=None, issue_severity=None,
+                 page_size=None):
+    if metric_list is None:
+        metric_list = []
+    page_size = 200 if page_size is None else page_size
     params = {'p': iter, 'ps': page_size}
+
     if type == 'projects':
         endpoint = SERVER + "api/components/search"
         params['organization'] = ORGANIZATION
@@ -101,23 +245,25 @@ def query_server(type, iter=1, project_key=None, metric_list=[], from_ts=None):
             params['from'] = from_ts
         params['component'] = project_key
         params['metrics'] = ','.join(metric_list)
-        # print("metric_list", params['metrics'])
 
     elif type == 'issues':
         endpoint = SERVER + "api/issues/search"
         params['componentKeys'] = project_key
-
+        params['types'] = issue_type
+        params['severities'] = issue_severity
     else:
         print("ERROR: Illegal info type.")
         return []
 
     r = requests.get(endpoint, params=params)
-    # print("endpoint: ", r.request.path_url)
+    # print(r.request.path_url)
     if r.status_code != 200:
         print("ERROR: HTTP Response code {0} for request {1}".format(r.status_code, r.request.path_url))
         return []
 
     r_dict = r.json()
+
+    total_num_elements = 0
 
     if type == 'projects':
         element_list = r_dict['components']
@@ -134,14 +280,16 @@ def query_server(type, iter=1, project_key=None, metric_list=[], from_ts=None):
     elif type == 'issues':
         element_list = r_dict['issues']
         total_num_elements = r_dict['paging']['total']
-    # print(metric_list)
+
     if iter * page_size < total_num_elements:
         if type == 'measures':
             element_list = concat_measures(element_list, query_server(type, iter + 1, project_key,
                                                                       metric_list=metric_list, from_ts=from_ts))
+        elif type == 'issues':
+            element_list = element_list + query_server(type, iter + 1, project_key, from_ts=from_ts,
+                                                       issue_type=issue_type, page_size=page_size,
+                                                       issue_severity=issue_severity)
         else:
-            if type == 'issues' and iter * page_size >= 10000:
-                return element_list
             element_list = element_list + query_server(type, iter + 1, project_key, from_ts=from_ts)
 
     return element_list
@@ -251,12 +399,11 @@ def safe_cast(val, to_type, contain_comma=False, list_with_semicolon=False):
             return None
     else:
         try:
+            value = str(val)
             if contain_comma:
-                value = str(val).replace(',', ';')
-            elif list_with_semicolon:
-                value = str(val).replace(';', ',')
-            else:
-                value = str(val)
+                value = value.replace(',', ';')
+            if list_with_semicolon:
+                value = value.replace(';', ',')
             return value
         except (ValueError, TypeError):
             print("ERROR: error casting to type {0}".format(to_type))
@@ -278,7 +425,7 @@ def extract_measures_value(measures, metrics_order_type, columns, data):
 
         list_with_semicolon = False
         if metric in ['class_complexity_distribution', 'function_complexity_distribution',
-                      'file_complexity_distribution']:
+                      'file_complexity_distribution', 'ncloc_language_distribution']:
             list_with_semicolon = True
 
         values = list(
@@ -295,9 +442,11 @@ def extract_measures_value(measures, metrics_order_type, columns, data):
 
         # Resolving None Integer values
         if SONAR_MEASURES_DTYPE[metric] == "Int64":
-            data[metric] = pd.array(values, dtype=pd.Int64Dtype())
-        else:
-            data[metric] = values
+            values = pd.array(values, dtype=pd.Int64Dtype())
+
+        data[metric] = values
+        # if metric in MISSING_IN_HUNGS_SCRIPT and values:
+        #    print("metric: {0}\t\t values: {1}".format(metric, values))
     return columns, data
 
 
@@ -321,7 +470,7 @@ def process_project_measures(project, output_path, new_analyses, metrics_path=No
     output_path.mkdir(parents=True, exist_ok=True)
     staging_file_path = output_path.joinpath("{0}_staging.csv".format(project_key.replace(' ', '_').replace(':', '_')))
 
-    min_ts_str = new_analyses['date'].min().strftime(format='%Y-%m-%d')
+    min_ts_str = None if new_analyses is None else new_analyses['date'].min().strftime(format='%Y-%m-%d')
 
     metrics_order_type = load_metrics(metrics_path)
     metrics = list(metrics_order_type.keys())
@@ -340,11 +489,6 @@ def process_project_measures(project, output_path, new_analyses, metrics_path=No
 
     # Create DF
     data_with_measures['project'] = [project_key] * len(new_analyses)
-    # print(len(data_with_measures))
-    # print('\n')
-    # print(data_with_measures)
-    # print('\n')
-    # print(columns_with_metrics)
     df = pd.DataFrame(data_with_measures, columns=columns_with_metrics)
     df.to_csv(path_or_buf=staging_file_path, index=False, header=True, sep=',')
 
@@ -367,6 +511,8 @@ def get_creation_analysis_key(issue_key, archive_file_path, key_date_list):
 
 
 def process_project_issues(project, output_path, new_analyses, latest_analysis_ts_on_file):
+    issue_types = ['CODE_SMELL', 'BUG', 'VULNERABILITY']
+    severity_types = ['INFO', 'MINOR', 'MAJOR', 'CRITICAL', 'BLOCKER']
     project_key = project['key']
 
     output_path = Path(output_path).joinpath("issues")
@@ -374,7 +520,26 @@ def process_project_issues(project, output_path, new_analyses, latest_analysis_t
     file_path = output_path.joinpath("{0}_staging.csv".format(project_key.replace(' ', '_').replace(':', '_')))
     archive_file_path = output_path.joinpath("{0}.csv".format(project_key.replace(' ', '_').replace(':', '_')))
 
-    project_issues = query_server('issues', 1, project_key=project_key)
+    endpoint = SERVER + "api/issues/search"
+    params = {'componentKeys': project_key}
+
+    project_issues = []
+    for issue_type in issue_types:
+        params['types'] = issue_type
+        for severity_type in severity_types:
+            params['severities'] = severity_type
+            r = requests.get(endpoint, params=params)
+
+            if r.status_code != 200:
+                print("ERROR: HTTP Response code {0} for request {1}".format(r.status_code, r.request.path_url))
+
+            r_dict = r.json()
+
+            total_num_elements = r_dict['paging']['total']
+
+            page_size = 500 if (total_num_elements > 10000) else 200
+            project_issues += query_server('issues', 1, project_key=project_key, issue_type=issue_type,
+                                           issue_severity=severity_type, page_size=page_size)
 
     new_analysis_keys = new_analyses['analysis_key'].values.tolist()
     new_analysis_dates = new_analyses['date'].values
@@ -419,7 +584,7 @@ def process_project_issues(project, output_path, new_analyses, latest_analysis_t
         issues.append(issue)
 
     print("\t\t{0} - {1} new issues".format(project_key, len(issues)))
-    if issues != []:
+    if issues:
         df = pd.DataFrame(data=issues, columns=SONAR_ISSUES_DTYPE.keys())
         df = df.astype({
             "effort": "Int64",
@@ -468,7 +633,7 @@ def process_project_analyses(project, output_path):
         lines.append(line)
 
     print("\t\t {0} - {1} new analyses.".format(project_key, len(lines)))
-    if lines is not []:
+    if len(lines) > 0:
         df = pd.DataFrame(data=lines, columns=SONAR_ANALYSES_DTYPE.keys())
         df.to_csv(staging_file_path, index=False, header=True)
         return df, last_analysis_ts
@@ -482,22 +647,16 @@ def fetch_sonar_data(output_path):
 
     print("Total: {0} projects.".format(len(project_list)))
     i = 0
-    for project in project_list:
-        with open('./projects.csv', 'w') as f:
-            f.write("organization,id,key,name,qualifier\n")
-            f.write("{},{},{},{},{}\n".format(
-                project['organization'],
-                project['id'],
-                project['key'],
-                project['name'],
-                project['qualifier'],
-            ))
+    with open('./projects.csv', 'w') as f:
+        f.write(",".join(project_list[0].keys()) + "\n")
+        for project in project_list[0:20]:
+            f.write(",".join("{}".format(d) for d in project.values())+"\n")
 
-        new_analyses, latest_analysis_ts_on_file = process_project_analyses(project, output_path)
-        if new_analyses is None:
-            continue
-        process_project_measures(project, output_path, new_analyses)
-        process_project_issues(project, output_path, new_analyses, latest_analysis_ts_on_file)
+            new_analyses, latest_analysis_ts_on_file = process_project_analyses(project, output_path)
+            if new_analyses is None:
+                continue
+            process_project_measures(project, output_path, new_analyses)
+            process_project_issues(project, output_path, new_analyses, latest_analysis_ts_on_file)
 
 
 if __name__ == "__main__":
