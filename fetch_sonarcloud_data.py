@@ -10,8 +10,8 @@ import numpy as np
 import os
 import csv
 
-SERVER = "https://sonarcloud.io/"
-ORGANIZATION = "apache"
+SERVER = "http://sonar63.rd.tut.fi/"
+ORGANIZATION = "default-organization"
 SONAR_MEASURES_DTYPE = OrderedDict({
     'project': 'object',
     'analysis_key': 'object',
@@ -209,7 +209,6 @@ def write_metrics_file(metric_list):
                 continue
 
             SONAR_MEASURES_DTYPE[metric['key']] = TYPE_CONVERSION[metric['type']]
-            # print('{0},'.format(metric['key']))
             f.write("{},{},{},{}\n".format(
                 'No Domain' if 'domain' not in metric else metric['domain'],
                 'No Key' if 'key' not in metric else metric['key'],
@@ -256,7 +255,6 @@ def query_server(type, iter=1, project_key=None, metric_list=None, from_ts=None,
         return []
 
     r = requests.get(endpoint, params=params)
-    # print(r.request.path_url)
     if r.status_code != 200:
         print("ERROR: HTTP Response code {0} for request {1}".format(r.status_code, r.request.path_url))
         return []
@@ -445,8 +443,8 @@ def extract_measures_value(measures, metrics_order_type, columns, data):
             values = pd.array(values, dtype=pd.Int64Dtype())
 
         data[metric] = values
-        # if metric in MISSING_IN_HUNGS_SCRIPT and values:
-        #    print("metric: {0}\t\t values: {1}".format(metric, values))
+        if metric in MISSING_IN_HUNGS_SCRIPT and values:
+           print("metric: {0}\t\t values: {1}".format(metric, values))
     return columns, data
 
 
@@ -485,7 +483,10 @@ def process_project_measures(project, output_path, new_analyses, metrics_path=No
 
     columns = ['project', 'analysis_key']
 
+    print('*' * 30)
+    print('{0}'.format(project['name']))
     columns_with_metrics, data_with_measures = extract_measures_value(measures, metrics_order_type, columns, data)
+    print('*' * 30)
 
     # Create DF
     data_with_measures['project'] = [project_key] * len(new_analyses)
@@ -649,7 +650,7 @@ def fetch_sonar_data(output_path):
     i = 0
     with open('./projects.csv', 'w') as f:
         f.write(",".join(project_list[0].keys()) + "\n")
-        for project in project_list[0:20]:
+        for project in project_list:
             f.write(",".join("{}".format(d) for d in project.values())+"\n")
 
             new_analyses, latest_analysis_ts_on_file = process_project_analyses(project, output_path)
