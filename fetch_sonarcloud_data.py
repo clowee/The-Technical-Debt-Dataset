@@ -9,8 +9,9 @@ import argparse
 import numpy as np
 import os
 import csv
+from urllib.parse import quote
 
-SERVER = "http://sonar63.rd.tut.fi/"
+SERVER = "https://course-sonar.rd.tuni.fi/"
 ORGANIZATION = "default-organization"
 SONAR_MEASURES_DTYPE = OrderedDict({
     'project': 'object',
@@ -218,7 +219,7 @@ def write_metrics_file(metric_list):
 
 
 def query_server(type, iter=1, project_key=None, metric_list=None, from_ts=None, issue_type=None, issue_severity=None,
-                 page_size=None):
+                 page_size=None, created_at=None, created_after=None):
     if metric_list is None:
         metric_list = []
     page_size = 200 if page_size is None else page_size
@@ -250,6 +251,10 @@ def query_server(type, iter=1, project_key=None, metric_list=None, from_ts=None,
         params['componentKeys'] = project_key
         params['types'] = issue_type
         params['severities'] = issue_severity
+        if created_at:
+            params['createdAt'] = created_at
+        if created_after:
+            params['createdAfter'] = created_after
     else:
         print("ERROR: Illegal info type.")
         return []
@@ -258,7 +263,6 @@ def query_server(type, iter=1, project_key=None, metric_list=None, from_ts=None,
     if r.status_code != 200:
         print("ERROR: HTTP Response code {0} for request {1}".format(r.status_code, r.request.path_url))
         return []
-
     r_dict = r.json()
 
     total_num_elements = 0
@@ -278,6 +282,7 @@ def query_server(type, iter=1, project_key=None, metric_list=None, from_ts=None,
     elif type == 'issues':
         element_list = r_dict['issues']
         total_num_elements = r_dict['paging']['total']
+        print(r.request.path_url)
 
     if iter * page_size < total_num_elements:
         if type == 'measures':
@@ -286,7 +291,8 @@ def query_server(type, iter=1, project_key=None, metric_list=None, from_ts=None,
         elif type == 'issues':
             element_list = element_list + query_server(type, iter + 1, project_key, from_ts=from_ts,
                                                        issue_type=issue_type, page_size=page_size,
-                                                       issue_severity=issue_severity)
+                                                       issue_severity=issue_severity, created_at=created_at,
+                                                       created_after=created_after)
         else:
             element_list = element_list + query_server(type, iter + 1, project_key, from_ts=from_ts)
 
@@ -522,33 +528,64 @@ def process_project_issues(project, output_path, new_analyses, latest_analysis_t
     archive_file_path = output_path.joinpath("{0}.csv".format(project_key.replace(' ', '_').replace(':', '_')))
 
     endpoint = SERVER + "api/issues/search"
-    params = {'componentKeys': project_key}
-
+    params = {'componentKeys': project_key, 'createdAfter': '1900-01-01T01:01:01+0100', 's': 'CREATION_DATE'}
+    created_after = {'createdAfter': '1900-01-01T01:01:01+0100'}
     project_issues = []
-    for issue_type in issue_types:
-        params['types'] = issue_type
-        for severity_type in severity_types:
-            params['severities'] = severity_type
-            r = requests.get(endpoint, params=params)
+    # for issue_type in issue_types:
+    #     params['types'] = issue_type
+    #     for severity_type in severity_types:
+    #         params['severities'] = severity_type
+    r = requests.get(endpoint, params=params)
 
-            if r.status_code != 200:
-                print("ERROR: HTTP Response code {0} for request {1}".format(r.status_code, r.request.path_url))
+    if r.status_code != 200:
+        print("ERROR: HTTP Response code {0} for request {1}".format(r.status_code, r.request.path_url))
 
-            r_dict = r.json()
+    r_dict = r.json()
 
-            total_num_elements = r_dict['paging']['total']
+    total_num_elements = r_dict['paging']['total']
 
-            page_size = 500 if (total_num_elements > 10000) else 200
-            project_issues += query_server('issues', 1, project_key=project_key, issue_type=issue_type,
-                                           issue_severity=severity_type, page_size=page_size)
+    i = 0
+    first_issue_date = '1900-01-01T01:01:01+0100'
+    while total_num_elements > 10000:
+        i = i + 1
+        issues = r_dict['issues']
+        if issues:
+            print(issues[0])
+            first_issue = issues[0]
+            first_issue_date = first_issue['creationDate']
 
+            project_issues += query_server('issues', 1, project_key=project_key, issue_type=None,
+                                           issue_severity=None, page_size=500,
+                                           created_at=first_issue_date)
+            next_date = datetime.strptime(first_issue_date[:19], "%Y-%m-%dT%H:%M:%S")+timedelta(days=1)
+        else:
+            first_issue_date = first_issue_date
+            next_date = datetime.strptime(first_issue_date[:19], "%Y-%m-%dT%H:%M:%S") + timedelta(days=1)
+
+        next_datetime = '{0}-{1}-{2}T{3}:{4}:{5}+0000'.format(next_date.strftime('%Y'), next_date.strftime('%m'),
+                                                              next_date.strftime('%d'), next_date.strftime('%H'),
+                                                              next_date.strftime('%M'), next_date.strftime('%S'))
+        created_after['createdAfter'] = next_datetime
+
+        params['createdAfter'] = next_datetime
+        r = requests.get(endpoint, params=params)
+
+        if r.status_code != 200:
+            print("ERROR: HTTP Response code {0} for request {1}".format(r.status_code, r.request.path_url))
+
+        r_dict = r.json()
+
+    project_issues += query_server('issues', 1, project_key=project_key, issue_type=None,
+                                   issue_severity=None, page_size=200, created_after=created_after['createdAfter'])
+
+    print('\nanalyze\n')
     new_analysis_keys = new_analyses['analysis_key'].values.tolist()
     new_analysis_dates = new_analyses['date'].values
     # dates are in decreasing order
     key_date_list = list(zip(new_analysis_keys, new_analysis_dates))
 
     issues = []
-    for project_issue in project_issues:
+    for project_issue in project_issues[0:20000]:
 
         update_date = None if 'updateDate' not in project_issue else process_datetime(project_issue['updateDate'])
         # belong to the analyses on file
@@ -650,13 +687,13 @@ def fetch_sonar_data(output_path):
     i = 0
     with open('./projects.csv', 'w') as f:
         f.write(",".join(project_list[0].keys()) + "\n")
-        for project in project_list:
+        for project in [project_list[0]]:
             f.write(",".join("{}".format(d) for d in project.values())+"\n")
 
             new_analyses, latest_analysis_ts_on_file = process_project_analyses(project, output_path)
             if new_analyses is None:
                 continue
-            process_project_measures(project, output_path, new_analyses)
+            # process_project_measures(project, output_path, new_analyses)
             process_project_issues(project, output_path, new_analyses, latest_analysis_ts_on_file)
 
 
