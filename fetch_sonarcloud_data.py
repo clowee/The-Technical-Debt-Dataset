@@ -1,4 +1,6 @@
 import requests
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.retry import Retry
 import math
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -198,6 +200,12 @@ MISSING_IN_HUNGS_SCRIPT = [
     "xs_percent"
 ]
 
+session = requests.Session()
+retry = Retry(connect=3, backoff_factor=0.5)
+adapter = HTTPAdapter(max_retries=retry)
+session.mount('http://', adapter)
+session.mount('https://', adapter)
+
 
 def write_metrics_file(metric_list):
     metric_list.sort(key=lambda x: ('None' if 'domain' not in x else x['domain'], int(x['id'])))
@@ -218,7 +226,7 @@ def write_metrics_file(metric_list):
             ))
 
 
-def query_server(type, iter=1, project_key=None, metric_list=None, from_ts=None, issue_type=None, issue_severity=None,
+def query_server(type, iter=1, project_key=None, metric_list=None, from_ts=None, issue_severity=None,
                  page_size=None, created_at=None, created_after=None):
     if metric_list is None:
         metric_list = []
@@ -249,7 +257,6 @@ def query_server(type, iter=1, project_key=None, metric_list=None, from_ts=None,
     elif type == 'issues':
         endpoint = SERVER + "api/issues/search"
         params['componentKeys'] = project_key
-        params['types'] = issue_type
         params['severities'] = issue_severity
         if created_at:
             params['createdAt'] = created_at
@@ -259,7 +266,7 @@ def query_server(type, iter=1, project_key=None, metric_list=None, from_ts=None,
         print("ERROR: Illegal info type.")
         return []
 
-    r = requests.get(endpoint, params=params)
+    r = session.get(endpoint, params=params)
     if r.status_code != 200:
         print("ERROR: HTTP Response code {0} for request {1}".format(r.status_code, r.request.path_url))
         return []
@@ -282,7 +289,6 @@ def query_server(type, iter=1, project_key=None, metric_list=None, from_ts=None,
     elif type == 'issues':
         element_list = r_dict['issues']
         total_num_elements = r_dict['paging']['total']
-        print(r.request.path_url)
 
     if iter * page_size < total_num_elements:
         if type == 'measures':
@@ -290,12 +296,23 @@ def query_server(type, iter=1, project_key=None, metric_list=None, from_ts=None,
                                                                       metric_list=metric_list, from_ts=from_ts))
         elif type == 'issues':
             element_list = element_list + query_server(type, iter + 1, project_key, from_ts=from_ts,
-                                                       issue_type=issue_type, page_size=page_size,
-                                                       issue_severity=issue_severity, created_at=created_at,
-                                                       created_after=created_after)
+                                                       page_size=page_size, issue_severity=issue_severity,
+                                                       created_at=created_at, created_after=created_after)
         else:
             element_list = element_list + query_server(type, iter + 1, project_key, from_ts=from_ts)
 
+    return element_list
+
+
+def check_issue_total(type, iter=1, project_key=None, page_size=None, created_at=None, total_in_a_datetime=0):
+    severity_types = ['INFO', 'MINOR', 'MAJOR', 'CRITICAL', 'BLOCKER']
+    element_list = []
+    if total_in_a_datetime > 10000:
+        for severity_type in severity_types:
+            element_list = element_list + query_server(type, iter, project_key, page_size=page_size,
+                                                       issue_severity=severity_type, created_at=created_at)
+    else:
+        element_list = query_server(type, iter, project_key, page_size=page_size, created_at=created_at)
     return element_list
 
 
@@ -518,8 +535,8 @@ def get_creation_analysis_key(issue_key, archive_file_path, key_date_list):
 
 
 def process_project_issues(project, output_path, new_analyses, latest_analysis_ts_on_file):
-    issue_types = ['CODE_SMELL', 'BUG', 'VULNERABILITY']
-    severity_types = ['INFO', 'MINOR', 'MAJOR', 'CRITICAL', 'BLOCKER']
+    # issue_types = ['CODE_SMELL', 'BUG', 'VULNERABILITY']
+
     project_key = project['key']
 
     output_path = Path(output_path).joinpath("issues")
@@ -528,14 +545,11 @@ def process_project_issues(project, output_path, new_analyses, latest_analysis_t
     archive_file_path = output_path.joinpath("{0}.csv".format(project_key.replace(' ', '_').replace(':', '_')))
 
     endpoint = SERVER + "api/issues/search"
-    params = {'componentKeys': project_key, 'createdAfter': '1900-01-01T01:01:01+0100', 's': 'CREATION_DATE'}
+    params = {'p': 1, 'ps': 1, 'componentKeys': project_key, 'createdAfter': '1900-01-01T01:01:01+0100', 's': 'CREATION_DATE'}
     created_after = {'createdAfter': '1900-01-01T01:01:01+0100'}
     project_issues = []
-    # for issue_type in issue_types:
-    #     params['types'] = issue_type
-    #     for severity_type in severity_types:
-    #         params['severities'] = severity_type
-    r = requests.get(endpoint, params=params)
+
+    r = session.get(endpoint, params=params)
 
     if r.status_code != 200:
         print("ERROR: HTTP Response code {0} for request {1}".format(r.status_code, r.request.path_url))
@@ -546,21 +560,19 @@ def process_project_issues(project, output_path, new_analyses, latest_analysis_t
 
     i = 0
     first_issue_date = '1900-01-01T01:01:01+0100'
-    while total_num_elements > 10000:
-        i = i + 1
+
+    while r_dict['paging']['total'] > 10000:
         issues = r_dict['issues']
         if issues:
-            print(issues[0])
             first_issue = issues[0]
             first_issue_date = first_issue['creationDate']
 
-            project_issues += query_server('issues', 1, project_key=project_key, issue_type=None,
-                                           issue_severity=None, page_size=500,
-                                           created_at=first_issue_date)
-            next_date = datetime.strptime(first_issue_date[:19], "%Y-%m-%dT%H:%M:%S")+timedelta(days=1)
+            project_issues += check_issue_total('issues', 1, project_key=project_key, page_size=500,
+                                                created_at=first_issue_date, total_in_a_datetime=r_dict['paging']['total'])
+            next_date = datetime.strptime(first_issue_date[:19], "%Y-%m-%dT%H:%M:%S")+timedelta(seconds=1)
         else:
             first_issue_date = first_issue_date
-            next_date = datetime.strptime(first_issue_date[:19], "%Y-%m-%dT%H:%M:%S") + timedelta(days=1)
+            next_date = datetime.strptime(first_issue_date[:19], "%Y-%m-%dT%H:%M:%S") + timedelta(seconds=1)
 
         next_datetime = '{0}-{1}-{2}T{3}:{4}:{5}+0000'.format(next_date.strftime('%Y'), next_date.strftime('%m'),
                                                               next_date.strftime('%d'), next_date.strftime('%H'),
@@ -568,24 +580,26 @@ def process_project_issues(project, output_path, new_analyses, latest_analysis_t
         created_after['createdAfter'] = next_datetime
 
         params['createdAfter'] = next_datetime
-        r = requests.get(endpoint, params=params)
-
+        r = session.get(endpoint, params=params)
+        print(total_num_elements)
         if r.status_code != 200:
             print("ERROR: HTTP Response code {0} for request {1}".format(r.status_code, r.request.path_url))
 
         r_dict = r.json()
+        total_num_elements = r_dict['paging']['total']
 
-    project_issues += query_server('issues', 1, project_key=project_key, issue_type=None,
+    project_issues += query_server('issues', 1, project_key=project_key,
                                    issue_severity=None, page_size=200, created_after=created_after['createdAfter'])
 
     print('\nanalyze\n')
+    print(len(project_issues))
     new_analysis_keys = new_analyses['analysis_key'].values.tolist()
     new_analysis_dates = new_analyses['date'].values
     # dates are in decreasing order
     key_date_list = list(zip(new_analysis_keys, new_analysis_dates))
 
     issues = []
-    for project_issue in project_issues[0:20000]:
+    for project_issue in project_issues:
 
         update_date = None if 'updateDate' not in project_issue else process_datetime(project_issue['updateDate'])
         # belong to the analyses on file
