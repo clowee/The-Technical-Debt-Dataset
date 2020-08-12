@@ -505,11 +505,7 @@ def process_project_measures(project, output_path, new_analyses, metrics_path=No
     data['analysis_key'] = new_analyses['analysis_key'].values.tolist()
 
     columns = ['project', 'analysis_key']
-
-    print('*' * 30)
-    print('{0}'.format(project['name']))
     columns_with_metrics, data_with_measures = extract_measures_value(measures, metrics_order_type, columns, data)
-    print('*' * 30)
 
     # Create DF
     data_with_measures['project'] = [project_key] * len(new_analyses)
@@ -581,7 +577,6 @@ def process_project_issues(project, output_path, new_analyses, latest_analysis_t
 
         params['createdAfter'] = next_datetime
         r = session.get(endpoint, params=params)
-        print(total_num_elements)
         if r.status_code != 200:
             print("ERROR: HTTP Response code {0} for request {1}".format(r.status_code, r.request.path_url))
 
@@ -591,8 +586,6 @@ def process_project_issues(project, output_path, new_analyses, latest_analysis_t
     project_issues += query_server('issues', 1, project_key=project_key,
                                    issue_severity=None, page_size=200, created_after=created_after['createdAfter'])
 
-    print('\nanalyze\n')
-    print(len(project_issues))
     new_analysis_keys = new_analyses['analysis_key'].values.tolist()
     new_analysis_dates = new_analyses['date'].values
     # dates are in decreasing order
@@ -606,20 +599,16 @@ def process_project_issues(project, output_path, new_analyses, latest_analysis_t
         if update_date is not None and latest_analysis_ts_on_file is not None and update_date <= latest_analysis_ts_on_file:
             continue
         current_analysis_key = None if update_date is None else get_analysis_key(update_date, key_date_list)
-
         creation_date = None if 'creationDate' not in project_issue else process_datetime(project_issue['creationDate'])
         creation_analysis_key = None if creation_date is None else get_creation_analysis_key(creation_date,
                                                                                              archive_file_path,
                                                                                              key_date_list)
-
         close_date = None if 'closeDate' not in project_issue else process_datetime(project_issue['closeDate'])
-
         issue_key = None if 'key' not in project_issue else project_issue['key']
         rule = None if 'rule' not in project_issue else project_issue['rule']
         severity = None if 'severity' not in project_issue else project_issue['severity']
         status = None if 'status' not in project_issue else project_issue['status']
         resolution = None if 'resolution' not in project_issue else project_issue['resolution']
-
         effort = None if 'effort' not in project_issue else get_duration_from_str(project_issue['effort'])
         debt = None if 'debt' not in project_issue else get_duration_from_str(project_issue['debt'])
 
@@ -627,9 +616,7 @@ def process_project_issues(project, output_path, new_analyses, latest_analysis_t
             tags = None
         else:
             tags = ','.join(project_issue['tags'])
-
         type = None if 'type' not in project_issue else project_issue['type']
-
         issue = (
         project_key, current_analysis_key, creation_analysis_key, issue_key, type, rule, severity, status, resolution,
         effort, debt, tags, creation_date, update_date, close_date)
@@ -701,13 +688,13 @@ def fetch_sonar_data(output_path):
     i = 0
     with open('./projects.csv', 'w') as f:
         f.write(",".join(project_list[0].keys()) + "\n")
-        for project in [project_list[0]]:
+        for project in project_list:
             f.write(",".join("{}".format(d) for d in project.values())+"\n")
 
             new_analyses, latest_analysis_ts_on_file = process_project_analyses(project, output_path)
             if new_analyses is None:
                 continue
-            # process_project_measures(project, output_path, new_analyses)
+            process_project_measures(project, output_path, new_analyses)
             process_project_issues(project, output_path, new_analyses, latest_analysis_ts_on_file)
 
 
