@@ -590,7 +590,7 @@ def process_project_issues(project, output_path, new_analyses, latest_analysis_t
     new_analysis_dates = new_analyses['date'].values
     # dates are in decreasing order
     key_date_list = list(zip(new_analysis_keys, new_analysis_dates))
-
+    # print(len(project_issues))
     issues = []
     for project_issue in project_issues:
 
@@ -688,14 +688,14 @@ def fetch_sonar_data(output_path):
     i = 0
     with open('./projects.csv', 'w') as f:
         f.write(",".join(project_list[0].keys()) + "\n")
-        for project in project_list:
+        for project in [project_list[0]]:
             f.write(",".join("{}".format(d) for d in project.values())+"\n")
 
             new_analyses, latest_analysis_ts_on_file = process_project_analyses(project, output_path)
             if new_analyses is None:
                 continue
             process_project_measures(project, output_path, new_analyses)
-            process_project_issues(project, output_path, new_analyses, latest_analysis_ts_on_file)
+            # process_project_issues(project, output_path, new_analyses, latest_analysis_ts_on_file)
 
 
 if __name__ == "__main__":
