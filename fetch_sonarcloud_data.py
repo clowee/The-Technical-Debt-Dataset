@@ -36,6 +36,14 @@ SONAR_ISSUES_DTYPE = OrderedDict({
     "creation_date": "object",
     "update_date": "object",
     "close_date": "object",
+    "message": "object",
+    "component": "object",
+    "start_line": "Int64",
+    "end_line": "Int64",
+    "start_offset": "Int64",
+    "end_offset": "Int64",
+    "hash": "object",
+    "from_hotspot": "object"
 })
 
 SONAR_ANALYSES_DTYPE = OrderedDict({
@@ -617,9 +625,22 @@ def process_project_issues(project, output_path, new_analyses, latest_analysis_t
         else:
             tags = ','.join(project_issue['tags'])
         type = None if 'type' not in project_issue else project_issue['type']
-        issue = (
-        project_key, current_analysis_key, creation_analysis_key, issue_key, type, rule, severity, status, resolution,
-        effort, debt, tags, creation_date, update_date, close_date)
+        message = None if 'message' not in project_issue else project_issue['message']
+        component = None if 'component' not in project_issue else project_issue['component']
+        start_line = None if 'textRange' not in project_issue else None if 'startLine' not in project_issue['textRange']\
+            else project_issue['textRange']['startLine']
+        end_line = None if 'textRange' not in project_issue else None if 'endLine' not in project_issue[
+            'textRange'] else project_issue['textRange']['endLine']
+        start_offset = None if 'textRange' not in project_issue else None if 'startOffset' not in project_issue[
+            'textRange'] else project_issue['textRange']['startOffset']
+        end_offset = None if 'textRange' not in project_issue else None if 'endOffset' not in project_issue[
+            'textRange'] else project_issue['textRange']['endOffset']
+        hash = None if 'hash' not in project_issue else project_issue['hash']
+        from_hotspot = None if 'fromHotspot' not in project_issue else project_issue['fromHotspot']
+
+        issue = (project_key, current_analysis_key, creation_analysis_key, issue_key, type, rule, severity, status,
+                 resolution, effort, debt, tags, creation_date, update_date, close_date, message, component, start_line,
+                 end_line, start_offset, end_offset, hash, from_hotspot)
         issues.append(issue)
 
     print("\t\t{0} - {1} new issues".format(project_key, len(issues)))
@@ -688,14 +709,14 @@ def fetch_sonar_data(output_path):
     i = 0
     with open('./projects.csv', 'w') as f:
         f.write(",".join(project_list[0].keys()) + "\n")
-        for project in [project_list[0]]:
+        for project in project_list[0:3]:
             f.write(",".join("{}".format(d) for d in project.values())+"\n")
 
             new_analyses, latest_analysis_ts_on_file = process_project_analyses(project, output_path)
             if new_analyses is None:
                 continue
             process_project_measures(project, output_path, new_analyses)
-            # process_project_issues(project, output_path, new_analyses, latest_analysis_ts_on_file)
+            process_project_issues(project, output_path, new_analyses, latest_analysis_ts_on_file)
 
 
 if __name__ == "__main__":
