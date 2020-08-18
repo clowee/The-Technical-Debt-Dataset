@@ -1,0 +1,109 @@
+Domain,Key,Type,Description
+Complexity,complexity,INT,Cyclomatic complexity
+Complexity,file_complexity,FLOAT,Complexity average by file
+Complexity,complexity_in_classes,INT,Cyclomatic complexity in classes
+Complexity,class_complexity,FLOAT,Complexity average by class
+Complexity,complexity_in_functions,INT,Cyclomatic complexity in functions
+Complexity,function_complexity,FLOAT,Complexity average by function
+Complexity,function_complexity_distribution,DISTRIB,Functions distribution /complexity
+Complexity,file_complexity_distribution,DISTRIB,Files distribution /complexity
+Complexity,cognitive_complexity,INT,Cognitive complexity
+Coverage,tests,INT,Number of unit tests
+Coverage,test_execution_time,MILLISEC,Execution duration of unit tests
+Coverage,test_errors,INT,Number of unit test errors
+Coverage,skipped_tests,INT,Number of skipped unit tests
+Coverage,test_failures,INT,Number of unit test failures
+Coverage,test_success_density,PERCENT,Density of successful unit tests
+Coverage,coverage,PERCENT,Coverage by tests
+Coverage,new_coverage,PERCENT,Coverage of new/changed code
+Coverage,lines_to_cover,INT,Lines to cover
+Coverage,new_lines_to_cover,INT,Lines to cover on new code
+Coverage,uncovered_lines,INT,Uncovered lines
+Coverage,new_uncovered_lines,INT,Uncovered lines on new code
+Coverage,line_coverage,PERCENT,Line coverage
+Coverage,new_line_coverage,PERCENT,Line coverage of added/changed code
+Coverage,conditions_to_cover,INT,Conditions to cover
+Coverage,new_conditions_to_cover,INT,Conditions to cover on new code
+Coverage,uncovered_conditions,INT,Uncovered conditions
+Coverage,new_uncovered_conditions,INT,Uncovered conditions on new code
+Coverage,branch_coverage,PERCENT,Condition coverage
+Coverage,new_branch_coverage,PERCENT,Condition coverage of new/changed code
+Coverage,executable_lines_data,DATA,No Description
+Documentation,public_api,INT,Public API
+Documentation,public_documented_api_density,PERCENT,Public documented classes and functions balanced by ncloc
+Documentation,public_undocumented_api,INT,Public undocumented classes, functions and variables
+Duplications,duplicated_lines,INT,Duplicated lines
+Duplications,new_duplicated_lines,INT,Duplicated Lines on New Code
+Duplications,duplicated_blocks,INT,Duplicated blocks
+Duplications,new_duplicated_blocks,INT,Duplicated blocks on new code
+Duplications,duplicated_files,INT,Duplicated files
+Duplications,duplicated_lines_density,PERCENT,Duplicated lines balanced by statements
+Duplications,new_duplicated_lines_density,PERCENT,Duplicated lines on new code balanced by statements
+Duplications,duplications_data,DATA,Duplications details
+General,quality_gate_details,DATA,The project detailed status with regard to its quality gate
+General,quality_profiles,DATA,Details of quality profiles used during analysis
+Issues,violations,INT,Issues
+Issues,blocker_violations,INT,Blocker issues
+Issues,critical_violations,INT,Critical issues
+Issues,major_violations,INT,Major issues
+Issues,minor_violations,INT,Minor issues
+Issues,info_violations,INT,Info issues
+Issues,new_violations,INT,New issues
+Issues,new_blocker_violations,INT,New Blocker issues
+Issues,new_critical_violations,INT,New Critical issues
+Issues,new_major_violations,INT,New Major issues
+Issues,new_minor_violations,INT,New Minor issues
+Issues,new_info_violations,INT,New Info issues
+Issues,false_positive_issues,INT,False positive issues
+Issues,wont_fix_issues,INT,Won't fix issues
+Issues,open_issues,INT,Open issues
+Issues,reopened_issues,INT,Reopened issues
+Issues,confirmed_issues,INT,Confirmed issues
+Maintainability,code_smells,INT,Code Smells
+Maintainability,new_code_smells,INT,New Code Smells
+Maintainability,sqale_index,WORK_DUR,Total effort (in hours) to fix all the issues on the component and therefore to comply to all the requirements.
+Maintainability,new_technical_debt,WORK_DUR,Added technical debt
+Maintainability,sqale_rating,RATING,A-to-E rating based on the technical debt ratio
+Maintainability,new_maintainability_rating,RATING,Maintainability rating on new code
+Maintainability,development_cost,STRING,Development cost
+Maintainability,new_development_cost,STRING,Development cost on new code
+Maintainability,sqale_debt_ratio,PERCENT,Ratio of the actual technical debt compared to the estimated cost to develop the whole source code from scratch
+Maintainability,new_sqale_debt_ratio,PERCENT,Technical Debt Ratio of new/changed code.
+Maintainability,effort_to_reach_maintainability_rating_a,WORK_DUR,Effort to reach maintainability rating A
+Management,burned_budget,FLOAT,No Description
+Management,business_value,FLOAT,No Description
+Management,team_size,INT,No Description
+No Domain,sonarjava_feedback,DATA,No Description
+Releasability,alert_status,LEVEL,The project status with regard to its quality gate.
+Reliability,bugs,INT,Bugs
+Reliability,new_bugs,INT,New Bugs
+Reliability,reliability_remediation_effort,WORK_DUR,Reliability Remediation Effort
+Reliability,new_reliability_remediation_effort,WORK_DUR,Reliability remediation effort on new code
+Reliability,reliability_rating,RATING,Reliability rating
+Reliability,new_reliability_rating,RATING,Reliability rating on new code
+SCM,last_commit_date,MILLISEC,No Description
+Security,vulnerabilities,INT,Vulnerabilities
+Security,new_vulnerabilities,INT,New Vulnerabilities
+Security,security_hotspots,INT,Security Hotspots
+Security,new_security_hotspots,INT,New Security Hotspots
+Security,security_remediation_effort,WORK_DUR,Security remediation effort
+Security,new_security_remediation_effort,WORK_DUR,Security remediation effort on new code
+Security,security_rating,RATING,Security rating
+Security,new_security_rating,RATING,Security rating on new code
+Security,security_review_rating,RATING,Security Review Rating
+Size,lines,INT,Lines
+Size,generated_lines,INT,Number of generated lines
+Size,ncloc,INT,Non commenting lines of code
+Size,new_lines,INT,New lines
+Size,ncloc_language_distribution,DATA,Non Commenting Lines of Code Distributed By Language
+Size,generated_ncloc,INT,Generated non Commenting Lines of Code
+Size,classes,INT,Classes
+Size,files,INT,Number of files
+Size,directories,INT,Directories
+Size,functions,INT,Functions
+Size,statements,INT,Number of statements
+Size,projects,INT,Number of projects
+Size,comment_lines,INT,Number of comment lines
+Size,comment_lines_density,PERCENT,Comments balanced by ncloc + comment lines
+Size,ncloc_data,DATA,No Description
+Size,comment_lines_data,DATA,No Description
