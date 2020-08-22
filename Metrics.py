@@ -1,4 +1,3 @@
-from collections import OrderedDict
 import pandas as pd
 from pathlib import Path
 from Interface import Interface
@@ -13,10 +12,9 @@ class Metrics(Interface, Common):
         self.__server = server
         self.__endpoint = self.__server + "api/metrics/search"
         self.__organization = organization
-        self.__iter = 1
         self.__page_size = 100
         self.__params = {
-            'p': self.__iter,
+            'p': 1,
             'ps': self.__page_size,
         }
         self.__metrics_list = []
@@ -25,10 +23,6 @@ class Metrics(Interface, Common):
 
         self.__route_config = RequestsConfig()
         self.__session = self.__route_config.route_session()
-        self.__SONAR_MEASURES_TYPE = OrderedDict({
-            'project': 'object',
-            'analysis_key': 'object',
-        })
         self.__output_path = output_path
 
     def __format_response(self):
@@ -41,7 +35,7 @@ class Metrics(Interface, Common):
 
     def __check_num_of_elements(self):
         result = ResponseUtils.check_num_of_elements({
-            'iter': self.__iter,
+            'iter': self.__params['p'],
             'page_size': self.__page_size,
             'total_num_elements': self.__total_num_metrics})
         return result
@@ -55,15 +49,17 @@ class Metrics(Interface, Common):
         self.__metrics_list = response_dict['metrics']
         self.__total_num_metrics = response_dict['total']
         if self.__check_num_of_elements():
-            self.__iter = self.__iter + 1
-            self.__params['p'] = self.__iter
+            self.__params['p'] = self.__params['p'] + 1
             self.__metrics_list = self.__metrics_list + self.__do_search()
         return self.__metrics_list
 
     def __write_into_csv(self):
         metrics = []
+        self.__metrics_list.sort(key=lambda x: ('None' if 'domain' not in x else x['domain'], int(x['id'])))
         for metric in self.__metrics_list:
-            self.__SONAR_MEASURES_TYPE[metric['key']] = self.TYPE_CONVERSION[metric['type']]
+            if metric == 'sonarjava_feedback':
+                continue
+            self.SONAR_MEASURES_TYPE[metric['key']] = self.TYPE_CONVERSION[metric['type']]
             metric = ('No Domain' if 'domain' not in metric else metric['domain'],
                       'No Key' if 'key' not in metric else metric['key'],
                       'No Type' if 'type' not in metric else metric['type'],
@@ -82,3 +78,4 @@ class Metrics(Interface, Common):
     def get_metrics(self):
         self.__do_search()
         self.__write_into_csv()
+        return self.SONAR_MEASURES_TYPE
