@@ -65,7 +65,6 @@ class Issues(Interface, Common):
         return r_dict
 
     def __call_the_api(self):
-        print(self.__params)
         return self.__route_config.call_api_route(session=self.__session, endpoint=self.__endpoint,
                                                   params=self.__params)
 
