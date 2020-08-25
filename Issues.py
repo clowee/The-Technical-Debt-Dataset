@@ -65,6 +65,7 @@ class Issues(Interface, Common):
         return r_dict
 
     def __call_the_api(self):
+        print(self.__params)
         return self.__route_config.call_api_route(session=self.__session, endpoint=self.__endpoint,
                                                   params=self.__params)
 
@@ -184,15 +185,16 @@ class Issues(Interface, Common):
 
                 project_issues += self.__check_issue_total(created_at=first_issue_date,
                                                            total_in_a_datetime=response_dict['paging']['total'])
-                next_date = datetime.strptime(first_issue_date[:19], "%Y-%m-%dT%H:%M:%S") + timedelta(seconds=1)
-            else:
-                next_date = datetime.strptime(first_issue_date[:19], "%Y-%m-%dT%H:%M:%S") + timedelta(seconds=1)
 
-            next_datetime = '{0}-{1}-{2}T{3}:{4}:{5}+0000'.format(next_date.strftime('%Y'), next_date.strftime('%m'),
-                                                                  next_date.strftime('%d'), next_date.strftime('%H'),
-                                                                  next_date.strftime('%M'), next_date.strftime('%S'))
+            next_date = datetime.strptime(first_issue_date[:19], "%Y-%m-%dT%H:%M:%S") + timedelta(seconds=1)
+
+            next_datetime = '{0}-{1}-{2}T{3}:{4}:{5}{6}'.format(next_date.strftime('%Y'), next_date.strftime('%m'),
+                                                                next_date.strftime('%d'), next_date.strftime('%H'),
+                                                                next_date.strftime('%M'), next_date.strftime('%S'),
+                                                                first_issue_date[19:])
             self.__params['createdAfter'] = next_datetime
             self.__params['createdAt'] = None
+            self.__params['severities'] = None
             response = self.__call_the_api()
             if response.status_code != 200:
                 print("ERROR: HTTP Response code {0} for request {1}".format(response.status_code,
@@ -208,7 +210,6 @@ class Issues(Interface, Common):
         new_analysis_dates = self.__analysis['date'].values
         # dates are in decreasing order
         key_date_list = list(zip(new_analysis_keys, new_analysis_dates))
-        # print(len(project_issues))
         issues = []
         if project_issues:
             for project_issue in project_issues:
@@ -258,3 +259,8 @@ class Issues(Interface, Common):
 
     def get_issues(self):
         self.__prepare_search()
+        # response = self.__call_the_api()
+        # if not self.__route_config.check_invalid_status_code(response=response):
+        #     return []
+        # response_dict = response.json()
+        # print("{0}---{1}".format(self.__project_key, response_dict['paging']['total']))
