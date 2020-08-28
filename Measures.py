@@ -16,7 +16,7 @@ class Measures(Interface, Common):
         Common.__init__(self)
         self.__server = server
         self.__endpoint = self.__server + "api/measures/search_history"
-        self.__page_size = 200
+        self.__page_size = 1000
         self.__metrics_params = []
         self.__params = {
             'p': 1,
@@ -78,7 +78,8 @@ class Measures(Interface, Common):
     @staticmethod
     def __concat_measures(measures_1, measures_2):
         for measure_1, measure_2 in zip(measures_1, measures_2):
-            measure_1['history'] = measure_1['history'] + measure_2['history']
+            if measure_2['history']:
+                measure_1['history'] = measure_1['history'] + measure_2['history']
         return measures_1
 
     def __do_search(self):
@@ -186,8 +187,8 @@ class Measures(Interface, Common):
         metrics_list = list(metrics.keys())
         measures = []
 
-        for i in range(0, len(metrics_list), 15):
-            self.__params['metrics'] = ','.join(metrics_list[i:i + 15])
+        for i in range(0, len(metrics_list), 10):
+            self.__params['metrics'] = ','.join(metrics_list[i:i + 10])
             self.__params['p'] = 1
             measures = measures + self.__do_search()
 

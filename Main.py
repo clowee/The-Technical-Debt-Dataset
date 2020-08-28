@@ -19,29 +19,25 @@ def fetch_sonar_data(output_path):
     projects.sort(key=lambda x: x['key'])
 
     print("Total: {0} projects.".format(len(projects)))
-    i = 1
     for project in projects:
-        if i > 114:
-            # if project['name'] == 'Apache_Accumulo':
-            print('{0} analysis starts'.format(project['name']))
-            analysis = Analysis(SONAR63, output_path, project['key'])
-            new_analysis = analysis.get_analysis()
-            print('{0} analysis completed'.format(project['name']))
+        print('{0} analysis starts'.format(project['name']))
+        analysis = Analysis(SONAR63, output_path, project['key'])
+        new_analysis = analysis.get_analysis()
+        print('{0} analysis completed'.format(project['name']))
 
-            if new_analysis is None:
-                continue
+        if new_analysis is None:
+            continue
 
-            print('{0} measure starts'.format(project['name']))
-            measure = Measures(SONAR63, project_key=project['key'], output_path=output_path,
-                               analyses=new_analysis, measures_type=metrics_list)
-            measure.get_measures()
-            print('{0} measure completed'.format(project['name']))
+        print('{0} measure starts'.format(project['name']))
+        measure = Measures(SONAR63, project_key=project['key'], output_path=output_path,
+                           analyses=new_analysis, measures_type=metrics_list)
+        measure.get_measures()
+        print('{0} measure completed'.format(project['name']))
 
-            print('{0} issues starts'.format(project['name']))
-            issues = Issues(SONAR63, output_path, project['key'], analyses=new_analysis)
-            issues.get_issues()
-            print('{0} issues completed'.format(project['name']))
-        i += 1
+        print('{0} issues starts'.format(project['name']))
+        issues = Issues(SONAR63, output_path, project['key'], analyses=new_analysis)
+        issues.get_issues()
+        print('{0} issues completed'.format(project['name']))
 
 
 def main():
