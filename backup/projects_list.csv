@@ -1,0 +1,169 @@
+organization,id,key,name,qualifier
+default-organization,AV32UnfGwqolZDY6CLSm,org.apache:httpcore,Apache httpcore,TRK
+default-organization,AWMGIzEpqhI0slfvYbL2,org:apache:accumulo,Apache_Accumulo,TRK
+default-organization,AWMMG_aFqhI0slfvYbW7,org.apache:airavata,Apache_Airavata,TRK
+default-organization,AWMMHQGoqhI0slfvYbW9,org.apache:allura,Apache_Allura,TRK
+default-organization,AVycYKdLlhldbZcf_Y8d,org.apache:ambari,Apache_Ambari,TRK
+default-organization,AWd6C9e3kvuxFFME7Pm_,org.apache:apex,Apache_Apex,TRK
+default-organization,AWd6CKEpkvuxFFME7Pmq,org.apache:archiva,Apache_Archiva,TRK
+default-organization,AWMMwFBhqhI0slfvYbl9,org.apache:atlas,Apache_Atlas,TRK
+default-organization,AWMMJSsLqhI0slfvYbX7,org.apache:aurora,Apache_Aurora,TRK
+default-organization,AWMbpD7DoezEI4rmwjOw,org.apache:batik,Apache_Batik,TRK
+default-organization,AV3YNkPlwqolZDY6CJUt,org.apache:bcel,Apache_BCEL,TRK
+default-organization,AWMMyvW5qhI0slfvYboD,org.apache:beam,Apache_Beam,TRK
+default-organization,AV4fvE800dU_fr34bXSC,org.apache:beanutils,Apache_beanutils,TRK
+default-organization,AWd5_o9kkvuxFFME7Pmm,Apache_Cayenne,Apache_Cayenne1,TRK
+default-organization,AV4lZK580dU_fr34bYT0,org.apache:cocoon,Apache_Cocoon,TRK
+default-organization,AVyYMOPGlhldbZcf_YuI,org.apache:commons-cli,Apache_Commons_CLI,TRK
+default-organization,AV4fvslO0dU_fr34bXSY,org.apache:codec,Apache_commons_codec,TRK
+default-organization,AV4lYWcv0dU_fr34bYTQ,org.apache:collections,Apache_commons_collections,TRK
+default-organization,AV4TLkxL0dU_fr34bVCs,org.apache:commons-io,Apache_Commons_IO,TRK
+default-organization,AV4QBwos0dU_fr34bUCv,org.apache:commons-jelly,Apache_Commons_Jelly,TRK
+default-organization,AV4QBjw80dU_fr34bUCn,org.apache:commons-jexl,Apache_Commons_Jexl,TRK
+default-organization,AV4Z-O0p0dU_fr34bWOP,org.apache:vfs,Apache_Commons_vfs,TRK
+default-organization,AV4lYC1m0dU_fr34bYTJ,org.apache:configuration,Apache_configuration,TRK
+default-organization,AV3dX-C8wqolZDY6CJu6,org.apache:daemon,Apache_Daemon,TRK
+default-organization,AV3m4UsrwqolZDY6CKAk,org.apache:dbcp,Apache_dbcp,TRK
+default-organization,AV3YXZIPwqolZDY6CJVP,org.apache:dbutils,Apache_dbutils,TRK
+default-organization,AV3m4joAwqolZDY6CKAo,org.apache:digester,Apache_Digester,TRK
+default-organization,AV31mYccwqolZDY6CK64,org.apache:commons-exec,Apache_Exec,TRK
+default-organization,AWMMxoPiqhI0slfvYbnK,org.apache:felix,Apache_Felix,TRK
+default-organization,AV31mjmzwqolZDY6CK6-,org.apache:commons-fileupload,Apache_Fileupload,TRK
+default-organization,AVycZFfVlhldbZcf_Y8n,org.apache:hive,Apache_Hive,TRK
+default-organization,AV32UwAxwqolZDY6CLSt,org.apache:httpclient,Apache_httpclient,TRK
+default-organization,AV4YfyYQ0dU_fr34bVth,org.apache:jxpath,Apache_JXpath,TRK
+default-organization,AVw-o-ltlhldbZcf_YBk,org.apache:lucene-core,Apache_Lucene,TRK
+default-organization,AV4YgWv60dU_fr34bVtp,org.apache:net,Apache_Net,TRK
+default-organization,AV4Yg3Qg0dU_fr34bVtz,org.apache:ognl,Apache_Ognl,TRK
+default-organization,AWd6XG3AkvuxFFME7P4c,org.apache:samza,Apache_Samza,TRK
+default-organization,AWMMwz0oqhI0slfvYbmh,org.apache:santuario,Apache_Santuario,TRK
+default-organization,AWd6WbX6kvuxFFME7P31,org.apache:sqoop,Apache_Sqoop,TRK
+default-organization,AV4Z5Z6J0dU_fr34bWMk,org.apache:sshd,Apache_sshd,TRK
+default-organization,AWd6Vdc4kvuxFFME7P25,org.apache:syncope,Apache_Syncope,TRK
+default-organization,AWd6UpfbkvuxFFME7P2T,org.apache:tajo,Apache_Tajo,TRK
+default-organization,AWd6UQf5kvuxFFME7P2A,org.apache:tez,Apache_Tez,TRK
+default-organization,AWd6GVL_kvuxFFME7PpU,org.apache:thrift,Apache_Thrift,TRK
+default-organization,AV4fv_EV0dU_fr34bXSo,org.apache:validator,Apache_validator,TRK
+default-organization,AWd6TTEtkvuxFFME7P1R,org.apache:vxquery,Apache_Vxquery,TRK
+default-organization,AWd6FQR4kvuxFFME7PoV,org.apache:whimsy,Apache_whimsy,TRK
+default-organization,AWaQYE5KSnjYUzPZKWnp,org:apache:yetus,apache_yetus,TRK
+default-organization,AWd6EgbekvuxFFME7Pn1,org.apache:zeppelin,Apache_Zeppelin,TRK
+default-organization,AWMWF5W4qhI0slfvYfXY,org:apache:zookeper2,ApacheZookeper,TRK
+default-organization,AVUI4aZXG1AuUDGJzaGS,org:apache:bsf,BSF,TRK
+default-organization,AV4sz3V_0dU_fr34bZpb,ch,Chrome,TRK
+default-organization,AVproFzrdH2sTSAUwdyq,QC:EclipseCore,Eclipse Core,TRK
+default-organization,AVUR9n0hXzLzSiA6aMDe,org:apache:commons:el,EL,TRK
+default-organization,AVUMQGS0G1AuUDGJzaWz,org:apache:commons:email,EMAIL,TRK
+default-organization,AV4N_4xy0dU_fr34bUB-,firefox,Firefox,TRK
+default-organization,AVUEda0PG1AuUDGJzZkt,io,IO,TRK
+default-organization,AWM6kSjeoezEI4rmwoiT,org.jmt:Jack-My-Tour,Jack My Tour,TRK
+default-organization,AVzpq6rYvbeNG4GVzqQn,QC:jgit,JGit QC,TRK
+default-organization,AVzprvNRvbeNG4GVzqQt,QC:Junit,JUnit 4 QC,TRK
+default-organization,AWGzFCMq9HvL0xjJFWCy,TUT:Kactus2,Kactus2,TRK
+default-organization,AVUGedmyG1AuUDGJzZyN,org:apache:commons:modeler,MODELER,TRK
+default-organization,3778636b-8467-4123-850c-7ee457ac0e53,TIS:parkbz,parkbz,TRK
+default-organization,AVzy6qEivbeNG4GVzrZV,QC:aoi,QC - aoi,TRK
+default-organization,AV0INVfIvo5qzPVJKvDJ,QC:argouml,QC - argouml,TRK
+default-organization,AV0Iakyzvo5qzPVJKvDz,QC:aspectj,QC - aspectj,TRK
+default-organization,AVzy8RD_vbeNG4GVzrZh,QC:axion,QC - axion,TRK
+default-organization,AV1U2SZ2LhPVrfLDw7KY,QC:azureus,QC - azureus,TRK
+default-organization,AV0HvTQevo5qzPVJKvCY,QC:c_jdbc,QC - c jdbc,TRK
+default-organization,AV0Hzw8Jvo5qzPVJKvC2,QC:castor,QC - castor,TRK
+default-organization,AV0IOSuFvo5qzPVJKvDN,QC:cayenne,QC - cayenne,TRK
+default-organization,AV0IZq24vo5qzPVJKvDu,QC:checkstyle,QC - checkstyle,TRK
+default-organization,AV0IaLYwvo5qzPVJKvDw,QC:cobertura,QC - cobertura,TRK
+default-organization,AV0IavwAvo5qzPVJKvD1,QC:collections,QC - collections,TRK
+default-organization,AV0IbI-kvo5qzPVJKvD4,QC:colt,QC - colt,TRK
+default-organization,AV0IdJs0vo5qzPVJKvD_,QC:columba,QC - columba,TRK
+default-organization,AV0Ifjdlvo5qzPVJKvEB,QC:compiere,QC - compiere,TRK
+default-organization,AV0R2cpiLhPVrfLDw6S3,QC:derby,QC - derby,TRK
+default-organization,AV0INWF-vo5qzPVJKvDL,QC:displaytag,QC - displaytag,TRK
+default-organization,AV0UGpHDLhPVrfLDw6TE,QC:drawswf,QC - drawswf,TRK
+default-organization,AV0LtzJ_LhPVrfLDw6Sr,QC:emma,QC - emma,TRK
+default-organization,AV0LtXfrLhPVrfLDw6Sp,QC:exoportal,QC - exoportal,TRK
+default-organization,AV0LsD7YLhPVrfLDw6Sn,QC:findbugs,QC - findbugs,TRK
+default-organization,AV0LrIT2LhPVrfLDw6Sl,QC:fitjava,QC - fitjava,TRK
+default-organization,AV0H4XMwvo5qzPVJKvC-,QC:fitlibraryforfitnesse,QC - fitlibraryforfitnesse,TRK
+default-organization,AV0H5IBlvo5qzPVJKvDA,QC:freecol,QC - freecol,TRK
+default-organization,AV0H5VvDvo5qzPVJKvDC,QC:freecs,QC - freecs,TRK
+default-organization,AV0Lq-6RLhPVrfLDw6Sj,QC:freemind,QC - freemind,TRK
+default-organization,AV0Kc_-8LhPVrfLDw6SS,QC:galleon,QC - galleon,TRK
+default-organization,AV0I5l3bLhPVrfLDw6Re,QC:ganttproject,QC - ganttproject,TRK
+default-organization,AV0R9IC1LhPVrfLDw6S5,QC:hadoop,QC - hadoop,TRK
+default-organization,AV0I6L2aLhPVrfLDw6Ri,QC:heritrix,QC - heritrix,TRK
+default-organization,AV0IOaMqvo5qzPVJKvDP,QC:hsqldb,QC - hsqldb,TRK
+default-organization,AV0IPJIAvo5qzPVJKvDR,QC:htmlunit,QC - htmlunit,TRK
+default-organization,AV0IPmN9vo5qzPVJKvDT,QC:informa,QC - informa,TRK
+default-organization,AV0IRSW1vo5qzPVJKvDZ,QC:ireport,QC - ireport,TRK
+default-organization,AV0I6tN3LhPVrfLDw6Rm,QC:itext,QC - itext,TRK
+default-organization,AV0JcPfkLhPVrfLDw6SH,QC:ivatagroupware,QC - ivatagroupware,TRK
+default-organization,AV0I_RR5LhPVrfLDw6Rv,QC:jag,QC - jag,TRK
+default-organization,AV0HwBJBvo5qzPVJKvCc,QC:james,QC - james,TRK
+default-organization,AV0HwNtevo5qzPVJKvCg,QC:jasml,QC - jasml,TRK
+default-organization,AV0Hzr6Ivo5qzPVJKvC0,QC:jasperreports,QC - jasperreports,TRK
+default-organization,AV0IPvVBvo5qzPVJKvDV,QC:javacc,QC - javacc,TRK
+default-organization,AV0IYxNxvo5qzPVJKvDr,QC:jboss,QC - jboss,TRK
+default-organization,AV0IcKXfvo5qzPVJKvD8,QC:jchempaint,QC - jchempaint,TRK
+default-organization,AV0JB4MXLhPVrfLDw6R0,QC:jedit,QC - jedit,TRK
+default-organization,AV0ghRIPLhPVrfLDw6TI,QC:jena,QC - jena,TRK
+default-organization,AV0MfGBMLhPVrfLDw6St,QC:jext,QC - jext,TRK
+default-organization,AV0I-_P0LhPVrfLDw6Rt,QC:jFin_DateMath,QC - jFin DateMath,TRK
+default-organization,AV0MgDizLhPVrfLDw6Sx,QC:jfreechart,QC - jfreechart,TRK
+default-organization,AV0Hv1kDvo5qzPVJKvCa,QC:jgraph,QC - jgraph,TRK
+default-organization,AV0HwMKmvo5qzPVJKvCe,QC:jgraphpad,QC - jgraphpad,TRK
+default-organization,AV0HweGzvo5qzPVJKvCi,QC:jgrapht,QC - jgrapht,TRK
+default-organization,AV0HxSzXvo5qzPVJKvCm,QC:jgroups,QC - jgroups,TRK
+default-organization,AV0Hx_JIvo5qzPVJKvCo,QC:jhotdraw,QC - jhotdraw,TRK
+default-organization,AV0Hy2iUvo5qzPVJKvCs,QC:jmeter,QC - jmeter,TRK
+default-organization,AV0Hy_xJvo5qzPVJKvCw,QC:jmoney,QC - jmoney,TRK
+default-organization,AV0HzUDAvo5qzPVJKvCy,QC:joggplayer,QC - joggplayer,TRK
+default-organization,AV0IEyGxvo5qzPVJKvDE,QC:jparse,QC - jparse,TRK
+default-organization,AV0IE8n5vo5qzPVJKvDG,QC:jpf,QC - jpf,TRK
+default-organization,AV0TxGG7LhPVrfLDw6TC,QC:jrefactory,QC - jrefactory,TRK
+default-organization,AV0JGokhLhPVrfLDw6R4,QC:jruby,QC - jruby,TRK
+default-organization,AV0I6Za2LhPVrfLDw6Rk,QC:jspwiki,QC - jspwiki,TRK
+default-organization,AV0I5g6CLhPVrfLDw6Rc,QC:jsXe,QC - jsXe,TRK
+default-organization,AV0JIqzxLhPVrfLDw6R6,QC:jtopen,QC - jtopen,TRK
+default-organization,AV0JJG9HLhPVrfLDw6R-,QC:jung,QC - jung,TRK
+default-organization,AV0TrRyILhPVrfLDw6S-,QC:log4j,QC - log4j,TRK
+default-organization,AV0Tw2FgLhPVrfLDw6TA,QC:lucene,QC - lucene,TRK
+default-organization,AV0IQroavo5qzPVJKvDX,QC:marauroa,QC - marauroa,TRK
+default-organization,AV0IRdLQvo5qzPVJKvDb,QC:maven,QC - maven,TRK
+default-organization,AV0ITCUMvo5qzPVJKvDh,QC:megamek,QC - megamek,TRK
+default-organization,AV0Jo_IJLhPVrfLDw6SM,QC:mvnforum,QC - mvnforum,TRK
+default-organization,AV0JI6toLhPVrfLDw6R8,QC:myfaces_core,QC - myfaces core,TRK
+default-organization,AV0JrSSALhPVrfLDw6SO,QC:nakedobjects,QC - nakedobjects,TRK
+default-organization,AV0Jra5vLhPVrfLDw6SQ,QC:nekohtml,QC - nekohtml,TRK
+default-organization,AV0IRqatvo5qzPVJKvDd,QC:openjms,QC - openjms,TRK
+default-organization,AV0IR1nyvo5qzPVJKvDf,QC:oscache,QC - oscache,TRK
+default-organization,AV0Kd3cFLhPVrfLDw6SU,QC:picocontainer,QC - picocontainer,TRK
+default-organization,AV0I6F40LhPVrfLDw6Rg,QC:pmd,QC - pmd,TRK
+default-organization,AV0I70L3LhPVrfLDw6Ro,QC:poi,QC - poi,TRK
+default-organization,AV0du6fvLhPVrfLDw6TG,QC:pooka,QC - pooka,TRK
+default-organization,AV0MgBakLhPVrfLDw6Sv,QC:proguard,QC - proguard,TRK
+default-organization,AV0MgURJLhPVrfLDw6Sz,QC:quartz,QC - quartz,TRK
+default-organization,AV0HxFH3vo5qzPVJKvCk,QC:quickserver,QC - quickserver,TRK
+default-organization,AV0HyJ44vo5qzPVJKvCq,QC:quilt,QC - quilt,TRK
+default-organization,AV0Hy-c7vo5qzPVJKvCu,QC:roller,QC - roller,TRK
+default-organization,AV0HzyGXvo5qzPVJKvC4,QC:rssowl,QC - rssowl,TRK
+default-organization,AV0H0BkXvo5qzPVJKvC6,QC:sablecc,QC - sablecc,TRK
+default-organization,AV0H07PUvo5qzPVJKvC8,QC:sandmark,QC - sandmark,TRK
+default-organization,AV0SRmBmLhPVrfLDw6S8,QC:springframework,QC - springframework,TRK
+default-organization,AV0ITU2Cvo5qzPVJKvDj,QC:squirrel_sql,QC - squirrel sql,TRK
+default-organization,AV0IU8nJvo5qzPVJKvDl,QC:struts,QC - struts,TRK
+default-organization,AV0IVgoxvo5qzPVJKvDn,QC:sunflow,QC - sunflow,TRK
+default-organization,AV0IW-j2vo5qzPVJKvDp,QC:tapestry,QC - tapestry,TRK
+default-organization,AV0IbVH3vo5qzPVJKvD6,QC:tomcat,QC - tomcat,TRK
+default-organization,AV0KqmDkLhPVrfLDw6Sg,QC:trove,QC - trove,TRK
+default-organization,AV0KqeMJLhPVrfLDw6Se,QC:velocity,QC - velocity,TRK
+default-organization,AV0JJ2ZWLhPVrfLDw6SA,QC:wct,QC - wct,TRK
+default-organization,AV0KjHNNLhPVrfLDw6Sc,QC:webmail,QC - webmail,TRK
+default-organization,AV0KgJNdLhPVrfLDw6Sa,QC:weka,QC - weka,TRK
+default-organization,AV0JMaW7LhPVrfLDw6SC,QC:xalan,QC - xalan,TRK
+default-organization,AV0KewInLhPVrfLDw6SY,QC:xerces,QC - xerces,TRK
+default-organization,AV0Kd_pALhPVrfLDw6SW,QC:xmojo,QC - xmojo,TRK
+default-organization,AVvxy6hySPfpgfd8E4Sh,sasabus,SASA Bus Android App,TRK
+default-organization,AV4sqiEz0dU_fr34bZol,shell,Shell,TRK
+default-organization,1d5535a0-90f2-4c00-a3eb-74d634e8594d,TIS:vtraffic,vtraffic,TRK
+default-organization,1968f191-b0ed-4734-9cab-306ac66c5aad,TIS:w2panalytics,w2panalytics,TRK
+default-organization,AVzy6ANCvbeNG4GVzrZN,QC:ant,âQC - antâ,TRK

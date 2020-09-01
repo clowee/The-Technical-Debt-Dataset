@@ -1,0 +1,239 @@
+Domain,Key,Type,Description
+Complexity,complexity,INT,Cyclomatic complexity
+Complexity,file_complexity,FLOAT,Complexity average by file
+Complexity,complexity_in_classes,INT,Cyclomatic complexity in classes
+Complexity,class_complexity,FLOAT,Complexity average by class
+Complexity,complexity_in_functions,INT,Cyclomatic complexity in functions
+Complexity,function_complexity,FLOAT,Complexity average by function
+Complexity,class_complexity_distribution,DISTRIB,Classes distribution /complexity
+Complexity,function_complexity_distribution,DISTRIB,Functions distribution /complexity
+Complexity,file_complexity_distribution,DISTRIB,Files distribution /complexity
+Complexity,xs,INT,Total XS
+Complexity,xs_percent,PERCENT,Total XS in percent
+Complexity,tangle_design,PERCENT,Tangle Design Description
+Complexity,fat_class,INT,Fat Class Description
+Complexity,fat_design,INT,Fat Design Description
+Complexity,fat_leaf_package,INT,Fat Leaf Package Description
+Complexity,fat_method,INT,Fat Method Description
+Complexity,cognitive_complexity,INT,Cognitive complexity
+Coverage,tests,INT,Number of unit tests
+Coverage,test_execution_time,MILLISEC,Execution duration of unit tests
+Coverage,test_errors,INT,Number of unit test errors
+Coverage,skipped_tests,INT,Number of skipped unit tests
+Coverage,test_failures,INT,Number of unit test failures
+Coverage,test_success_density,PERCENT,Density of successful unit tests
+Coverage,test_data,DATA,Unit tests details
+Coverage,coverage,PERCENT,Coverage by tests
+Coverage,new_coverage,PERCENT,Coverage of new/changed code
+Coverage,lines_to_cover,INT,Lines to cover
+Coverage,new_lines_to_cover,INT,Lines to cover on new code
+Coverage,uncovered_lines,INT,Uncovered lines
+Coverage,new_uncovered_lines,INT,Uncovered lines on new code
+Coverage,line_coverage,PERCENT,Line coverage
+Coverage,new_line_coverage,PERCENT,Line coverage of added/changed code
+Coverage,coverage_line_hits_data,DATA,Coverage hits by line
+Coverage,conditions_to_cover,INT,Branches to cover
+Coverage,new_conditions_to_cover,INT,Branches to cover on New Code
+Coverage,uncovered_conditions,INT,Uncovered conditions
+Coverage,new_uncovered_conditions,INT,Uncovered conditions on new code
+Coverage,branch_coverage,PERCENT,Condition coverage
+Coverage,new_branch_coverage,PERCENT,Condition coverage of new/changed code
+Coverage,conditions_by_line,DATA,Conditions by line
+Coverage,covered_conditions_by_line,DATA,Covered conditions by line
+Coverage,it_coverage,PERCENT,Integration tests coverage
+Coverage,new_it_coverage,PERCENT,Integration tests coverage of new/changed code
+Coverage,it_lines_to_cover,INT,Lines to cover by Integration Tests
+Coverage,new_it_lines_to_cover,INT,Lines to cover on new code by integration tests
+Coverage,it_uncovered_lines,INT,Uncovered lines by integration tests
+Coverage,new_it_uncovered_lines,INT,New lines that are not covered by integration tests
+Coverage,it_line_coverage,PERCENT,Line coverage by integration tests
+Coverage,new_it_line_coverage,PERCENT,Integration tests line coverage of added/changed code
+Coverage,it_coverage_line_hits_data,DATA,Coverage hits by line by integration tests
+Coverage,it_conditions_to_cover,INT,Integration Tests conditions to cover
+Coverage,new_it_conditions_to_cover,INT,Branches to cover by Integration Tests on New Code
+Coverage,it_uncovered_conditions,INT,Uncovered conditions by integration tests
+Coverage,new_it_uncovered_conditions,INT,New conditions that are not covered by integration tests
+Coverage,it_branch_coverage,PERCENT,Condition coverage by integration tests
+Coverage,new_it_branch_coverage,PERCENT,Integration tests condition coverage of new/changed code
+Coverage,it_conditions_by_line,DATA,IT conditions by line
+Coverage,it_covered_conditions_by_line,DATA,IT covered conditions by line
+Coverage,overall_coverage,PERCENT,Overall test coverage
+Coverage,new_overall_coverage,PERCENT,Overall coverage of new/changed code
+Coverage,overall_lines_to_cover,INT,Overall lines to cover by all tests
+Coverage,new_overall_lines_to_cover,INT,New lines to cover by all tests
+Coverage,overall_uncovered_lines,INT,Uncovered lines by all tests
+Coverage,new_overall_uncovered_lines,INT,New lines that are not covered by any tests
+Coverage,overall_line_coverage,PERCENT,Line coverage by all tests
+Coverage,new_overall_line_coverage,PERCENT,Line coverage of added/changed code by all tests
+Coverage,overall_coverage_line_hits_data,DATA,Coverage hits by all tests and by line
+Coverage,overall_conditions_to_cover,INT,Branches to cover by all tests
+Coverage,new_overall_conditions_to_cover,INT,New branches to cover by all tests
+Coverage,overall_uncovered_conditions,INT,Uncovered conditions by all tests
+Coverage,new_overall_uncovered_conditions,INT,New conditions that are not covered by any test
+Coverage,overall_branch_coverage,PERCENT,Condition coverage by all tests
+Coverage,new_overall_branch_coverage,PERCENT,Condition coverage of new/changed code by all tests
+Coverage,overall_conditions_by_line,DATA,Overall conditions by all tests and by line
+Coverage,overall_covered_conditions_by_line,DATA,Overall covered conditions by all tests and by line
+Coverage,executable_lines_data,DATA,No Description
+Design,arch_violations,INT,Number of Architecture Violations
+Design,arch_violations_weighted,INT,Total number of Architecture Violations
+Documentation,public_api,INT,Public API
+Documentation,public_documented_api_density,PERCENT,Public documented classes and functions balanced by ncloc
+Documentation,public_undocumented_api,INT,Public undocumented classes, functions and variables
+Documentation,commented_out_code_lines,INT,Commented lines of code
+Duplications,duplicated_lines,INT,Duplicated lines
+Duplications,duplicated_blocks,INT,Duplicated blocks
+Duplications,duplicated_files,INT,Duplicated files
+Duplications,duplicated_lines_density,PERCENT,Duplicated lines balanced by statements
+Duplications,duplications_data,DATA,Duplications details
+Duplications,new_duplicated_lines,INT,Duplicated Lines on New Code
+Duplications,new_duplicated_blocks,INT,Duplicated blocks on new code
+Duplications,new_duplicated_lines_density,PERCENT,Duplicated lines on new code balanced by statements
+General,quality_gate_details,DATA,The project detailed status with regard to its quality gate
+General,quality_profiles,DATA,Details of quality profiles used during analysis
+General,arch-diagrams,DATA,Image binary data
+General,s101.buildbreaker,BOOL,breaks build
+General,Structure101_Web_Application_URL,STRING,Structure101_Web_Application_URL
+General,project,DATA,project
+Issues,violations,INT,Issues
+Issues,blocker_violations,INT,Blocker issues
+Issues,critical_violations,INT,Critical issues
+Issues,major_violations,INT,Major issues
+Issues,minor_violations,INT,Minor issues
+Issues,info_violations,INT,Info issues
+Issues,new_violations,INT,New issues
+Issues,new_blocker_violations,INT,New Blocker issues
+Issues,new_critical_violations,INT,New Critical issues
+Issues,new_major_violations,INT,New Major issues
+Issues,new_minor_violations,INT,New Minor issues
+Issues,new_info_violations,INT,New Info issues
+Issues,false_positive_issues,INT,False positive issues
+Issues,open_issues,INT,Open issues
+Issues,reopened_issues,INT,Reopened issues
+Issues,confirmed_issues,INT,Confirmed issues
+Issues,wont_fix_issues,INT,Won't fix issues
+Jdepend,afferent-couplings,INT,No Description
+Jdepend,efferent-couplings,INT,No Description
+Jdepend,number-of-classes-and-interfaces,INT,No Description
+Jdepend,package-dependency-cycles,INT,No Description
+Jdepend,missing_package_info,INT,No Description
+Jdepend,package,INT,No Description
+Jdepend,missing_package_info_count,INT,No Description
+Jdepend,package_count,INT,No Description
+Jdepend,package_info_count,INT,No Description
+Jdepend,java_count,INT,No Description
+Maintainability,sqale_index,WORK_DUR,Total effort (in days) to fix all the issues on the component and therefore to comply to all the requirements.
+Maintainability,new_technical_debt,WORK_DUR,Added technical debt
+Maintainability,sqale_rating,RATING,A-to-E rating based on the technical debt ratio
+Maintainability,development_cost,STRING,SQALE development cost
+Maintainability,sqale_debt_ratio,PERCENT,Ratio of the actual technical debt compared to the estimated cost to develop the whole source code from scratch
+Maintainability,new_sqale_debt_ratio,PERCENT,Technical Debt Ratio of new/changed code.
+Maintainability,code_smells,INT,Code Smells
+Maintainability,new_code_smells,INT,New Code Smells
+Maintainability,effort_to_reach_maintainability_rating_a,WORK_DUR,Effort to reach maintainability rating A
+Maintainability,new_maintainability_rating,RATING,Maintainability rating on new code
+Management,burned_budget,FLOAT,No Description
+Management,business_value,FLOAT,No Description
+Management,team_size,INT,No Description
+No Domain,fat_method_list,INT,No Description
+No Domain,s101_model_name,STRING,No Description
+No Domain,s101_model_sequential_actions,INT,No Description
+No Domain,s101_model_refactoring_actions,INT,No Description
+No Domain,s101_model_class_mappings,INT,No Description
+No Domain,s101_model_alignment,PERCENT,No Description
+Releasability,alert_status,LEVEL,The project status with regard to its quality gate.
+Reliability,bugs,INT,Bugs
+Reliability,new_bugs,INT,New Bugs
+Reliability,reliability_remediation_effort,WORK_DUR,Reliability Remediation Effort
+Reliability,new_reliability_remediation_effort,WORK_DUR,Reliability remediation effort on new code
+Reliability,reliability_rating,RATING,Reliability rating
+Reliability,new_reliability_rating,RATING,Reliability rating on new code
+SCM,last_commit_date,MILLISEC,No Description
+Security,vulnerabilities,INT,Vulnerabilities
+Security,new_vulnerabilities,INT,New Vulnerabilities
+Security,security_remediation_effort,WORK_DUR,Security remediation effort
+Security,new_security_remediation_effort,WORK_DUR,Security remediation effort on new code
+Security,security_rating,RATING,Security rating
+Security,new_security_rating,RATING,Security rating on new code
+Size,lines,INT,Lines
+Size,generated_lines,INT,Number of generated lines
+Size,ncloc,INT,Non commenting lines of code
+Size,ncloc_language_distribution,DATA,Non Commenting Lines of Code Distributed By Language
+Size,generated_ncloc,INT,Generated non Commenting Lines of Code
+Size,classes,INT,Classes
+Size,files,INT,Number of files
+Size,directories,INT,Directories
+Size,functions,INT,Functions
+Size,accessors,INT,Accessors
+Size,statements,INT,Number of statements
+Size,projects,INT,Number of projects
+Size,comment_lines,INT,Number of comment lines
+Size,comment_lines_density,PERCENT,Comments balanced by ncloc + comment lines
+Size,ncloc_data,DATA,No Description
+Size,comment_lines_data,DATA,No Description
+Size,new_lines,INT,Non commenting lines on new code
+Sonargraph Integration,sg_i.CORE_VIOLATIONS_COMPONENT_DEPENDENCIES,INT,Number of architecture violating component dependencies
+Sonargraph Integration,sg_i.CORE_BIGGEST_COMPONENT_CYCLE_GROUP,INT,Number of components in biggest cycle.
+Sonargraph Integration,sg_i.CORE_UNASSIGNED_COMPONENTS,INT,Number of internal components that are not assigned to any artifact
+Sonargraph Integration,sg_i.CORE_EMPTY_ARTIFACT_COUNT,INT,Number of active architecture artifacts that are empty
+Sonargraph Integration,sg_i.CORE_LINES_OF_CODE,INT,Lines of code excluding blank and comment lines.
+Sonargraph Integration,sg_i.CORE_NCCD,FLOAT,Normalized cumulative component dependency  according to John Lakos. The ratio between the cumulative component dependency and the cumulative component dependency of a balanced binary tree of the same size. A value greater than 1 indicates a more verti...
+Sonargraph Integration,sg_i.CORE_DUPLICATES,INT,Number of duplicated code blocks.
+Sonargraph Integration,sg_i.CORE_COMPONENT_DEPENDENCIES_TO_REMOVE_COMPONENTS,INT,Number of component dependencies to remove to break up all non-ignored component cycles
+Sonargraph Integration,sg_i.CORE_CODE_COMMENT_LINES,INT,Counts all comment lines excluding header comments.
+Sonargraph Integration,sg_i.CORE_IGNORED_DUPLICATES,INT,Number of ignored duplicated code blocks.
+Sonargraph Integration,sg_i.CORE_THRESHOLD_VIOLATIONS,INT,Number of non-ignored threshold violations.
+Sonargraph Integration,sg_i.CORE_COMMENT_LINES,INT,Counts all comment lines.
+Sonargraph Integration,sg_i.CORE_RELATIVE_CYCLICITY_COMPONENTS,FLOAT,Relative component cyclicity in percent.
+Sonargraph Integration,sg_i.CORE_IGNORED_VIOLATIONS_PARSER_DEPENDENCIES,INT,Number of parser dependencies in ignored architecture violations
+Sonargraph Integration,sg_i.CORE_CYCLIC_COMPONENTS,INT,Number of components involved in cycles.
+Sonargraph Integration,sg_i.JAVA_RELATIVE_CYCLICITY_PACKAGES,FLOAT,Relative package cyclicity in percent.
+Sonargraph Integration,sg_i.CORE_VIOLATIONS_PARSER_DEPENDENCIES,INT,Number of architecture violating parser dependencies
+Sonargraph Integration,sg_i.JAVA_COMPONENT_DEPENDENCIES_TO_REMOVE_PACKAGES,INT,Number of component dependencies to remove to break up all non-ignored package cycles.
+Sonargraph Integration,sg_i.CORE_TOTAL_LINES,INT,Counts all lines including empty and comment lines.
+Sonargraph Integration,sg_i.CORE_ARTIFACT_COUNT,INT,Number of active architecture artifacts
+Sonargraph Integration,sg_i.JAVA_IGNORED_CYCLIC_PACKAGES,INT,Number of ignored cyclic packages.
+Sonargraph Integration,sg_i.CORE_STRUCTURAL_DEBT_INDEX_COMPONENTS,INT,Cummulative structural debt index of non-ignored component cycles.
+Sonargraph Integration,sg_i.CORE_ACD,FLOAT,Average component dependency according to John Lakos. Average number of components a component depends on directly and indirectly. This metric can be used to characterize the overall average coupling of internal components.
+Sonargraph Integration,sg_i.JAVA_STRUCTURAL_DEBT_INDEX_PACKAGES,INT,Cummulative structural debt index of non-ignored package cycles.
+Sonargraph Integration,sg_i.JAVA_CYCLICITY_PACKAGES,INT,Cummulated cyclicity of package cycles.
+Sonargraph Integration,sg_i.CORE_CCD,INT,Cumulative component dependency according to John Lakos. Cumulated depends upon values.
+Sonargraph Integration,sg_i.CORE_VIOLATING_COMPONENTS,INT,Number of components that contain architecture violations
+Sonargraph Integration,sg_i.JAVA_PACKAGES,INT,Number of packages containing types.
+Sonargraph Integration,sg_i.JAVA_CYCLIC_PACKAGES,INT,Number of cyclic packages.
+Sonargraph Integration,sg_i.CORE_COMPONENTS,INT,Number of components.
+Sonargraph Integration,sg_i.CORE_MAX_ACD,FLOAT,Highest ACD value among child elements.
+Sonargraph Integration,sg_i.CORE_RACD,FLOAT,Relative average component dependency. Average component dependency divided by the number of internal components multiplied by 100 (in percent).
+Sonargraph Integration,sg_i.CORE_COMPONENT_CYCLE_GROUPS,INT,Number of component cycles.
+Sonargraph Integration,sg_i.CORE_PARSER_DEPENDENCIES_TO_REMOVE_COMPONENTS,INT,Number of code lines to change to break up all non-ignored component cycles.
+Sonargraph Integration,sg_i.JAVA_BYTE_CODE_INSTRUCTIONS,INT,Number of Java byte code instructions.
+Sonargraph Integration,sg_i.CORE_STATEMENTS,INT,Counts all statements.
+Sonargraph Integration,sg_i.JAVA_BIGGEST_PACKAGE_CYCLE_GROUP,INT,Biggest package cycle.
+Sonargraph Integration,sg_i.CORE_IGNORED_THRESHOLD_VIOLATIONS,INT,Number of ignored threshold violations.
+Sonargraph Integration,sg_i.CORE_SOURCE_ELEMENT_COUNT,INT,Number of programming elements (i.e. types, fields, methods, functions, ...) plus number of statements.
+Sonargraph Integration,sg_i.CORE_IGNORED_CYCLIC_COMPONENTS,INT,Number of components involved in ignored cycles.
+Sonargraph Integration,sg_i.JAVA_PACKAGE_CYCLE_GROUPS,INT,Number of package cycle groups.
+Sonargraph Integration,sg_i.PERCENTAGEOFDEADCODE,FLOAT,Percentage of potentially dead code
+Sonargraph Integration,sg_i.CORE_CYCLICITY_COMPONENTS,INT,Cummulated cyclicity of component cycles.
+Sonargraph Integration,sg_i.CORE_DUPLICATED_LINES,INT,Number of duplicated lines in non-ignored duplicated code blocks.
+Sonargraph Integration,sg_i.JAVA_PARSER_DEPENDENCIES_TO_REMOVE_PACKAGES,INT,Number of code lines to change to break up all non-ignored package cycles.
+Sonargraph Integration,sg_i.STRUCTURAL_DEBT_COST,FLOAT,Estimated Cost to Repair Structural Erosion
+Sonargraph Integration,sg_i.CURRENT_VIRTUAL_MODEL,STRING,Virtual model that has been active when the report has been created
+Sonargraph Integration,sg_i.VIRTUAL_MODEL_FEATURE_AVAILABLE,BOOL,Used to signal if the virtual model feature is available
+Sonargraph Integration,sg_i.NUMBER_OF_TASKS,INT,Number of task definitions
+Sonargraph Integration,sg_i.NUMBER_OF_UNAPPLICABLE_TASKS,INT,Number of tasks that have no matching elements
+Sonargraph Integration,sg_i.NUMBER_OF_RESOLUTIONS,INT,Number of defined resolutions
+Sonargraph Integration,sg_i.NUMBER_OF_UNAPPLICABLE_RESOLUTIONS,INT,Number of resolutions that have no matching elements
+Sonargraph Integration,sg_i.NUMBER_OF_REFACTORINGS,INT,Number of refactoring definitions
+Sonargraph Integration,sg_i.NUMBER_OF_UNAPPLICABLE_REFACTORINGS,INT,Number of refactorings that have no matching elements
+Sonargraph Integration,sg_i.NUMBER_OF_PARSER_DEPENDENCIES_AFFECTED_BY_REFACTORINGS,INT,Number of parser depencencies affected by refactorings
+Sonargraph Integration,sg_i.JAVA_CYCLIC_PACKAGES_PERCENT,PERCENT,Percentage of cyclically coupled packages
+Sonargraph Integration,sg_i.MAX_MODULE_NCCD,FLOAT,Highest Module NCCD
+Sonargraph Integration,sg_i.ARCHITECTURE_FEATURE_AVAILABLE,BOOL,Used to signal if the architecture feature is available
+Sonargraph Integration,sg_i.NUMBER_OF_ISSUES,INT,Total number of issues
+Sonargraph Integration,sg_i.NUMBER_OF_CRITICAL_ISSUES_WITHOUT_RESOLUTION,INT,Total number of issues (warnings and errors) without resolution
+Sonargraph Integration,sg_i.VIOLATING_COMPONENTS_PERCENT,PERCENT,Percentage of components with architecture violation
+Sonargraph Integration,sg_i.UNASSIGNED_COMPONENTS_PERCENT,PERCENT,Percentage of unassigned components
+Sonargraph Integration,sg_i.NUMBER_OF_THRESHOLD_VIOLATIONS,INT,Number of threshold violations
+Sonargraph Integration,sg_i.NUMBER_OF_WORKSPACE_WARNINGS,INT,Number of workspace warnings
+Sonargraph Integration,sg_i.NUMBER_OF_IGNORED_CRITICAL_ISSUES,INT,Number of ignored critical issues
