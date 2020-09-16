@@ -36,10 +36,16 @@ def modify_string(value):
     return value
 
 
-def get_commits():
-    project_name = 'ambari'
-    projectDirAbsPath = '/home/sazzad/'+project_name
-    currentProjectCsv = '/home/sazzad/Git_Logs/' + project_name + '_logs.csv'
+def get_commits(sonar_project_key, project_id, path_to_find):
+    logs_path = Path(path_to_find).joinpath("Git_Logs")
+    logs_path.mkdir(parents=True, exist_ok=True)
+    commit_logs_file = logs_path.joinpath("{0}.csv".format(
+        sonar_project_key.replace(' ', '_').replace(':', '_')))
+
+    project_dir_abs_path = Path(path_to_find).joinpath("repositories")
+    project_dir_abs_path = str(project_dir_abs_path.joinpath(project_id))
+    print(project_dir_abs_path)
+
     commits = []
     headers = OrderedDict({
         "HASH": "object",
@@ -65,7 +71,7 @@ def get_commits():
     })
 
     i = 0
-    for commit in RepositoryMining(projectDirAbsPath).traverse_commits():
+    for commit in RepositoryMining(project_dir_abs_path).traverse_commits():
 
         hash = check_value_exists(commit.hash)
         # msg = check_value_exists(modify_string(commit.msg))
@@ -108,13 +114,16 @@ def get_commits():
         commits.append(line)
 
     df = pd.DataFrame(data=commits, columns=headers)
-    df.to_csv(currentProjectCsv, index=False, header=True)
+    df.to_csv(commit_logs_file, index=False, header=True)
 
 
-def clone_repo(path_to_save, repositories_list):
-    for repo in repositories_list:
-        print(repo)
-        git.Git(Path(path_to_save).joinpath("repositories")).clone(repo)
+def clone_repo(path_to_find, repositories_list):
+    for pos, row in repositories_list.iterrows():
+        # git.Git(Path(path_to_find).joinpath("repositories")).clone(row.gitLink)
+        if row.projectID == 'ambari':
+            git.Git(Path(path_to_find).joinpath("repositories")).clone(row.gitLink)
+            get_commits(sonar_project_key=row.sonarProjectKey, project_id=row.projectID, path_to_find=path_to_find)
+            break
 
 
 if __name__ == '__main__':
@@ -123,7 +132,6 @@ if __name__ == '__main__':
     args = vars(ap.parse_args())
     output_path = args['output_path']
     projects = pd.read_csv(output_path + "/projects_list.csv")
-    repositories = projects.gitLink
-    clone_repo(path_to_save=output_path, repositories_list=repositories)
+    clone_repo(path_to_find=output_path, repositories_list=projects)
 
     # get_commits()
