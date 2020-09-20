@@ -13,12 +13,12 @@ import numpy as np
 def compare_commit_and_analysis_dates(save_file_path, analysis_file, commit_file, project_name):
     # Use a breakpoint in the code line below to debug your script.
     # The analysis of the given project in /sonar_data/analysis/ directory
-    analysis_df = pd.read_csv(save_file_path + "/analysis/org_apache_zookeper2.csv")
+    analysis_df = pd.read_csv(save_file_path + "/analysis/" + analysis_file)
 
     # The commit hash file of the given project in /sonar_data/Git_Logs/ directory
     # For this file, I have used Savanna's script which generates the commit log history of a project and
     # saved it in /sonar_data/Git_logs/ directory manually
-    commits_df = pd.read_csv(save_file_path + "/Git_Logs/org.apache_zookeeper.csv")
+    commits_df = pd.read_csv(save_file_path + "/Git_Logs/" + commit_file)
     analysis_df = analysis_df.assign(DATE_MATCH=analysis_df.date.isin(commits_df.AUTHOR_DATE).astype(int))
     # analysis_df = analysis_df.assign(TEST=True)
     analysis_df['COMMIT_DATE'] = analysis_df['date']
@@ -27,7 +27,7 @@ def compare_commit_and_analysis_dates(save_file_path, analysis_file, commit_file
     # print(analysis_df)
     compare_date_path = Path(save_file_path).joinpath("compare_date")
     compare_date_path.mkdir(parents=True, exist_ok=True)
-    compare_date_path = compare_date_path.joinpath("org.apache_zookeeper.csv")
+    compare_date_path = compare_date_path.joinpath(commit_file)
     del analysis_df['project_version']
     del analysis_df['revision']
     analysis_df.to_csv(compare_date_path, index=False, header=True)
@@ -90,7 +90,9 @@ if __name__ == '__main__':
     ap.add_argument("-o", "--output-path", default='./sonar_data', help="Path to output file directory.")
     args = vars(ap.parse_args())
     output_path = args['output_path']
-    compare_commit_and_analysis_dates(save_file_path=output_path, analysis_file='org.apache_ambari.csv',
-                                      commit_file='ambari_logs.csv', project_name='ambari')
+    projects = pd.read_csv(output_path + "/projects_list.csv")
+    for pos, row in projects.iterrows():
+        compare_commit_and_analysis_dates(save_file_path=output_path, analysis_file=row.sonarProjectKey,
+                                          commit_file=row.sonarProjectKey, project_name=row.projectID)
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
