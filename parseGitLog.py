@@ -72,7 +72,6 @@ def get_commits(sonar_project_key, project_id, path_to_find):
 
     i = 0
     for commit in RepositoryMining(project_dir_abs_path).traverse_commits():
-
         hash = check_value_exists(commit.hash)
         # msg = check_value_exists(modify_string(commit.msg))
         author_name = check_value_exists(commit.author.name)
@@ -120,10 +119,8 @@ def get_commits(sonar_project_key, project_id, path_to_find):
 def clone_repo(path_to_find, repositories_list):
     for pos, row in repositories_list.iterrows():
         # git.Git(Path(path_to_find).joinpath("repositories")).clone(row.gitLink)
-        if row.projectID == 'ambari':
-            git.Git(Path(path_to_find).joinpath("repositories")).clone(row.gitLink)
-            get_commits(sonar_project_key=row.sonarProjectKey, project_id=row.projectID, path_to_find=path_to_find)
-            break
+        git.Git(Path(path_to_find).joinpath("repositories")).clone(row.gitLink)
+        get_commits(sonar_project_key=row.sonarProjectKey, project_id=row.projectID, path_to_find=path_to_find)
 
 
 if __name__ == '__main__':

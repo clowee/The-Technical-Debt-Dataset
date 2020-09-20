@@ -5,6 +5,7 @@ import pandas as pd
 from ast import literal_eval
 import os
 from pathlib import Path
+import numpy as np
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
@@ -12,12 +13,25 @@ from pathlib import Path
 def compare_commit_and_analysis_dates(save_file_path, analysis_file, commit_file, project_name):
     # Use a breakpoint in the code line below to debug your script.
     # The analysis of the given project in /sonar_data/analysis/ directory
-    analysis_df = pd.read_csv(save_file_path + "/analysis/" + analysis_file)
+    analysis_df = pd.read_csv(save_file_path + "/analysis/org_apache_zookeper2.csv")
 
     # The commit hash file of the given project in /sonar_data/Git_Logs/ directory
     # For this file, I have used Savanna's script which generates the commit log history of a project and
     # saved it in /sonar_data/Git_logs/ directory manually
-    commits_df = pd.read_csv(save_file_path + "/Git_Logs/" + commit_file)
+    commits_df = pd.read_csv(save_file_path + "/Git_Logs/org.apache_zookeeper.csv")
+    analysis_df = analysis_df.assign(DATE_MATCH=analysis_df.date.isin(commits_df.AUTHOR_DATE).astype(int))
+    # analysis_df = analysis_df.assign(TEST=True)
+    analysis_df['COMMIT_DATE'] = analysis_df['date']
+    print(analysis_df['DATE_MATCH'].value_counts())
+    analysis_df.loc[analysis_df['DATE_MATCH'] == 0, 'COMMIT_DATE'] = None
+    # print(analysis_df)
+    compare_date_path = Path(save_file_path).joinpath("compare_date")
+    compare_date_path.mkdir(parents=True, exist_ok=True)
+    compare_date_path = compare_date_path.joinpath("org.apache_zookeeper.csv")
+    del analysis_df['project_version']
+    del analysis_df['revision']
+    analysis_df.to_csv(compare_date_path, index=False, header=True)
+    exit(1)
 
     # The issues of the given project in /sonar_data/issues/ directory
     issues_df = pd.read_csv(save_file_path + "/issues/" + analysis_file)
@@ -53,22 +67,21 @@ def compare_commit_and_analysis_dates(save_file_path, analysis_file, commit_file
                 line = (analysis_row['project'].values[0], analysis_row['analysis_key'].values[0],
                         analysis_row['date'].values[0], item.loc['HASH'])
                 rows.append(line)
-            else:
-                print('*' * 20)
-                print("author_date: {0}".format(item.loc['AUTHOR_DATE']))
-                # print("author_date: {0}, creation_date: {1}, update_date: {1}, close_date: {2}".format(
-                #     item.loc['AUTHOR_DATE'], issues_df['creation_date'], issues_df['update_date'], issues_df['close_date']))
-                print(modified_files)
-                print(component_files)
-                print('*' * 20)
 
 
-    print(len(rows))
-    save_file_path = Path(save_file_path).joinpath("analysis_commit")
-    save_file_path.mkdir(parents=True, exist_ok=True)
-    file_path = save_file_path.joinpath("sonar_analysis_commits_{0}.csv".format(project_name))
-    df = pd.DataFrame(data=rows, columns=headers)
-    df.to_csv(file_path, index=False, header=True)
+    two_dates = list(zip(rows, rows[1:]))
+
+    for row in two_dates:
+        first_date = row[0][2]
+        second_date = row[1][2]
+        print((analysis_df['date'] > first_date) & (analysis_df['date'] <= second_date))
+        break
+    # print(len(rows))
+    # save_file_path = Path(save_file_path).joinpath("analysis_commit")
+    # save_file_path.mkdir(parents=True, exist_ok=True)
+    # file_path = save_file_path.joinpath("sonar_analysis_commits_{0}.csv".format(project_name))
+    # df = pd.DataFrame(data=rows, columns=headers)
+    # df.to_csv(file_path, index=False, header=True)
 
 
 # Press the green button in the gutter to run the script.
@@ -77,7 +90,7 @@ if __name__ == '__main__':
     ap.add_argument("-o", "--output-path", default='./sonar_data', help="Path to output file directory.")
     args = vars(ap.parse_args())
     output_path = args['output_path']
-    compare_commit_and_analysis_dates(save_file_path=output_path, analysis_file='org_apache_accumulo.csv',
-                                      commit_file='accumulo_logs.csv', project_name='accumulo')
+    compare_commit_and_analysis_dates(save_file_path=output_path, analysis_file='org.apache_ambari.csv',
+                                      commit_file='ambari_logs.csv', project_name='ambari')
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
