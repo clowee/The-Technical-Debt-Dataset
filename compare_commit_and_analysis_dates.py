@@ -6,6 +6,7 @@ import pandas as pd
 
 def compare_commit_and_analysis_dates(save_file_path, analysis_file, commit_file, project_name):
     # The analysis of the given project in /sonar_data/analysis/ directory
+    print(analysis_file)
     analysis_df = pd.read_csv(save_file_path + "/analysis/" + "{0}.csv".format(
             analysis_file.replace(' ', '_').replace(':', '_')))
 
@@ -27,9 +28,16 @@ if __name__ == '__main__':
     projects = pd.read_csv(output_path + "/projects_list.csv")
     compare_dates = []
     for pos, row in projects.iterrows():
-       result = compare_commit_and_analysis_dates(save_file_path=output_path, analysis_file=row.sonarProjectKey,
-                                                  commit_file=row.sonarProjectKey, project_name=row.projectID)
-       compare_dates.append(result)
+        if row.projectID == 'el':
+            continue
+        sonar_project_key = row.sonarProjectKey
+        commit_file = row.sonarProjectKey
+        if row.projectID == 'zookeeper':
+            sonar_project_key = 'org_apache_zookeper2'
+            commit_file = 'org.apache_zookeeper'
+        result = compare_commit_and_analysis_dates(save_file_path=output_path, analysis_file=sonar_project_key,
+                                                  commit_file=commit_file, project_name=row.projectID)
+        compare_dates.append(result)
     df = pd.DataFrame(data=compare_dates, columns={
            "project": "object",
            "not_matched": "object",
