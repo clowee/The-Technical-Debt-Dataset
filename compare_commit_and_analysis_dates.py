@@ -44,5 +44,7 @@ if __name__ == '__main__':
            "matched": "object",
            "matched%": "object"})
     print(df.sort_values(by='matched%', ascending=False))
+    file_path = output_path.joinpath("Commit-hash-sonar-analysis-match-report.csv")
+    df.to_csv(file_path, index=False, header=True)
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
