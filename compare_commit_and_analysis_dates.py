@@ -2,11 +2,13 @@
 import json
 import argparse
 import pandas as pd
+from pathlib import Path
+import math
 
 
 def compare_commit_and_analysis_dates(save_file_path, analysis_file, commit_file, project_name):
     # The analysis of the given project in /sonar_data/analysis/ directory
-    print(analysis_file)
+    # print(analysis_file)
     analysis_df = pd.read_csv(save_file_path + "/analysis/" + "{0}.csv".format(
             analysis_file.replace(' ', '_').replace(':', '_')))
 
@@ -17,7 +19,9 @@ def compare_commit_and_analysis_dates(save_file_path, analysis_file, commit_file
     compared = json.loads(analysis_df['DATE_MATCH'].value_counts().to_json())
     not_matched = 0 if '0' not in compared else compared['0']
     matched = 0 if '1' not in compared else compared['1']
-    return project_name, not_matched, matched, (matched/(len(analysis_df.index))*100)
+    frac, whole = math.modf((matched/(len(analysis_df.index))*100))
+    percentage = whole if whole > 95 else math.ceil(matched/(len(analysis_df.index))*100)
+    return project_name, not_matched, matched, percentage
 
 
 if __name__ == '__main__':
@@ -44,6 +48,7 @@ if __name__ == '__main__':
            "matched": "object",
            "matched%": "object"})
     print(df.sort_values(by='matched%', ascending=False))
+    output_path = Path(output_path)
     file_path = output_path.joinpath("Commit-hash-sonar-analysis-match-report.csv")
     df.to_csv(file_path, index=False, header=True)
 

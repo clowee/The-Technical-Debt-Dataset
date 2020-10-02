@@ -41,7 +41,6 @@ def get_commits(sonar_project_key, project_id, path_to_find):
     logs_path.mkdir(parents=True, exist_ok=True)
     commit_logs_file = logs_path.joinpath("{0}.csv".format(
         sonar_project_key.replace(' ', '_').replace(':', '_')))
-
     project_dir_abs_path = Path(path_to_find).joinpath("repositories")
     project_dir_abs_path = str(project_dir_abs_path.joinpath(project_id))
     print(project_dir_abs_path)
