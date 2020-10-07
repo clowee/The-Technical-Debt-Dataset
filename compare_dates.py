@@ -259,6 +259,12 @@ def compare_commit_and_analysis_dates(save_file_path, analysis_file, commit_file
     # df.to_csv(file_path, index=False, header=True)
 
 
+def get_sonar_issues_match_info(file_path, issue_file, project_name):
+    issues_df = pd.read_csv(file_path + "/issues/" + "{0}.csv".format(issue_file.replace(' ', '_').replace(':', '_')))
+    print(len(issues_df))
+    print(project_name)
+    print()
+
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     ap = argparse.ArgumentParser()
@@ -267,8 +273,9 @@ if __name__ == '__main__':
     output_path = args['output_path']
     projects = pd.read_csv(output_path + "/projects_list.csv")
     for pos, row in projects.iterrows():
-        if row.projectID == 'felix':
-            compare_commit_and_analysis_dates(save_file_path=output_path, analysis_file=row.sonarProjectKey, commit_file=row.sonarProjectKey, project_name=row.projectID)
+        get_sonar_issues_match_info(file_path=output_path, issue_file=row.sonarProjectKey, project_name=row.projectID)
+        # if row.projectID == 'felix':
+        #     compare_commit_and_analysis_dates(save_file_path=output_path, analysis_file=row.sonarProjectKey, commit_file=row.sonarProjectKey, project_name=row.projectID)
     #compare_dates = []
     #for pos, row in projects.iterrows():
     #    if row.projectID != 'zookeeper':
