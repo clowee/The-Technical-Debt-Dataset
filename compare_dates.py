@@ -176,6 +176,7 @@ def get_sonar_issues_match_info(file_path, file_name, project_name):
                                                           'PROJECT_NAME', 'DMM_UNIT_SIZE', 'DMM_UNIT_COMPLEXITY',
                                                           'DMM_UNIT_INTERFACING', 'revision'])
     analysis_commit_df.rename(columns={'HASH': 'revision'}, inplace=True)
+    analysis_commit_df.dropna(subset=['revision'], inplace=True)
 
     save_file_path = Path(file_path).joinpath("analysis_commit")
     save_file_path.mkdir(parents=True, exist_ok=True)
@@ -192,51 +193,45 @@ def get_sonar_issues_match_info(file_path, file_name, project_name):
     count_creation_update_close_date_missing = 0
     for index, row in issues_df.iterrows():
         if row['creation_date']:
-            check = analysis_commit_df[analysis_commit_df['revision'].notnull() &
-                                       (analysis_commit_df['date'] == row['creation_date'])]
+            check = analysis_commit_df[analysis_commit_df['date'] == row['creation_date']]
 
             if check.empty:
                 print("create date {0}".format(row['creation_date']))
                 count_create_date_missing += 1
 
         if row['creation_date'] and row['close_date']:
-            check = analysis_commit_df[analysis_commit_df['revision'].notnull() &
-                                       ((analysis_commit_df['date'] == row['creation_date']) |
-                                        (analysis_commit_df['date'] == row['close_date']))]
+            check = analysis_commit_df[(analysis_commit_df['date'] == row['creation_date']) |
+                                       (analysis_commit_df['date'] == row['close_date'])]
 
             if check.empty:
-                print("create close date {0} {1}".format(row['creation_date'], row['close_date']))
+                # print("create close date {0} {1}".format(row['creation_date'], row['close_date']))
                 count_create_close_date_missing += 1
 
         if row['update_date']:
-            check = analysis_commit_df[analysis_commit_df['revision'].notnull() &
-                                       (analysis_commit_df['date'] == row['update_date'])]
+            check = analysis_commit_df[analysis_commit_df['date'] == row['update_date']]
 
             if check.empty:
                 # print("update date {0}".format(row['update_date']))
                 count_update_date_missing += 1
 
         if row['creation_date'] and row['update_date']:
-            check = analysis_commit_df[analysis_commit_df['revision'].notnull() &
-                                       ((analysis_commit_df['date'] == row['creation_date']) |
-                                        (analysis_commit_df['date'] == row['update_date']))]
+            check = analysis_commit_df[(analysis_commit_df['date'] == row['creation_date']) |
+                                       (analysis_commit_df['date'] == row['update_date'])]
 
             if check.empty:
                 # print("create update date {0} {1}".format(row['creation_date'], row['update_date']))
                 count_creation_update_date_missing += 1
 
         if row['update_date'] and row['close_date']:
-            check = analysis_commit_df[analysis_commit_df['revision'].notnull() &
-                                       ((analysis_commit_df['date'] == row['update_date']) |
-                                        (analysis_commit_df['date'] == row['close_date']))]
+            check = analysis_commit_df[(analysis_commit_df['date'] == row['update_date']) |
+                                       (analysis_commit_df['date'] == row['close_date'])]
 
             if check.empty:
                 # print("update close date {0} {1}".format(row['update_date'], row['close_date']))
                 count_update_close_date_missing += 1
 
         if row['creation_date'] and row['update_date'] and row['close_date']:
-            check = analysis_commit_df[analysis_commit_df['revision'].notnull() &
-                                       ((analysis_commit_df['date'] == row['creation_date']) |
+            check = analysis_commit_df[((analysis_commit_df['date'] == row['creation_date']) |
                                         (analysis_commit_df['date'] == row['update_date']) |
                                         (analysis_commit_df['date'] == row['close_date']))]
 
