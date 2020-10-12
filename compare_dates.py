@@ -3,6 +3,7 @@ import json
 import argparse
 from collections import OrderedDict
 import pandas as pd
+import math
 from ast import literal_eval
 import os
 import itertools
@@ -156,6 +157,12 @@ import numpy as np
     # df.to_csv(file_path, index=False, header=True)
 
 
+def get_percentage(total_issues, count):
+    frac, whole = math.modf(count / total_issues * 100)
+    percentage = whole if whole > 95 else math.ceil(count / total_issues * 100)
+    return percentage
+
+
 def get_sonar_issues_match_info(file_path, file_name, project_name):
     analysis_df = pd.read_csv(file_path + "/analysis/" + "{0}.csv".format(
         file_name.replace(' ', '_').replace(':', '_')))
@@ -184,6 +191,7 @@ def get_sonar_issues_match_info(file_path, file_name, project_name):
     analysis_commit_df.to_csv(save_file_path, index=False, header=True)
 
     issues_df = pd.read_csv(file_path + "/issues/" + "{0}.csv".format(file_name.replace(' ', '_').replace(':', '_')))
+    num_of_lines_in_issues = len(issues_df.index)
 
     count_create_date_missing = 0
     count_create_close_date_missing = 0
@@ -196,7 +204,7 @@ def get_sonar_issues_match_info(file_path, file_name, project_name):
             check = analysis_commit_df[analysis_commit_df['date'] == row['creation_date']]
 
             if check.empty:
-                print("create date {0}".format(row['creation_date']))
+                # print("create date {0}".format(row['creation_date']))
                 count_create_date_missing += 1
 
         if row['creation_date'] and row['close_date']:
@@ -238,30 +246,20 @@ def get_sonar_issues_match_info(file_path, file_name, project_name):
             if check.empty:
                 # print("update close date {0} {1}".format(row['update_date'], row['close_date']))
                 count_creation_update_close_date_missing += 1
-    print('{0} {1} {2} {3} {4} {5} {6}'.format(
-        project_name,
-        count_create_date_missing,
-        count_create_close_date_missing,
-        count_update_date_missing,
-        count_creation_update_date_missing,
-        count_update_close_date_missing,
-        count_creation_update_close_date_missing))
 
-    # count_create_update_close_date_not_found = 0
-    # creation_update_close_date_df = pd.DataFrame()
-    # creation_update_close_date_df = creation_update_close_date_df.assign(dates=np.concatenate(
-    #     [issues_df['creation_date'].values, issues_df['close_date'].values]))
-    # creation_update_close_date_df.dropna(subset=["dates"], inplace=True)
-    # creation_update_close_date_df = creation_update_close_date_df.drop_duplicates(subset=['dates'])
-    #
-    # for index, row in creation_update_close_date_df.iterrows():
-    #     check = analysis_commit_df[analysis_commit_df['revision'].notnull() &
-    #                                              (analysis_commit_df['date'] == row['dates'])]
-    #
-    #     if check.empty:
-    #         # print("create update close date {0}".format(row['dates']))
-    #         count_create_update_close_date_not_found += 1
-    # # print(count_create_update_close_date_not_found)
+    return (project_name, num_of_lines_in_issues,
+            count_create_date_missing,
+            get_percentage(total_issues=num_of_lines_in_issues, count=count_create_date_missing),
+            count_create_close_date_missing,
+            get_percentage(total_issues=num_of_lines_in_issues, count=count_create_close_date_missing),
+            count_update_date_missing,
+            get_percentage(total_issues=num_of_lines_in_issues, count=count_update_date_missing),
+            count_creation_update_date_missing,
+            get_percentage(total_issues=num_of_lines_in_issues, count=count_creation_update_date_missing),
+            count_update_close_date_missing,
+            get_percentage(total_issues=num_of_lines_in_issues, count=count_update_close_date_missing),
+            count_creation_update_close_date_missing,
+            get_percentage(total_issues=num_of_lines_in_issues, count=count_creation_update_close_date_missing))
 
 # Press the green button in the gutter to run the script.
 
@@ -272,6 +270,29 @@ if __name__ == '__main__':
     args = vars(ap.parse_args())
     output_path = args['output_path']
     projects = pd.read_csv(output_path + "/projects_list.csv")
+    data = []
     for pos, row in projects.iterrows():
-        if row.projectID == 'accumulo':
-            get_sonar_issues_match_info(file_path=output_path, file_name=row.sonarProjectKey, project_name=row.projectID)
+        if row.projectID == 'batik':
+            result = get_sonar_issues_match_info(file_path=output_path, file_name=row.sonarProjectKey,
+                                                 project_name=row.projectID)
+            data.append(result)
+
+    result_df = pd.DataFrame(data=data, columns={
+        "project": "object",
+        "LINES_IN_ISSUES_FILE": "object",
+        "MISSING_CREATION_ONLY_LINES": "object",
+        "%MISSING_CREATION_ONLY_LINES": "object",
+        "MISSING_CREATION_CLOSE_LINES": "object",
+        "%MISSING_CREATION_CLOSE_LINES": "object",
+        "MISSING_UPDATE_LINES": "object",
+        "%MISSING_UPDATE_LINES": "object",
+        "MISSING_CREATION_UPDATE_LINES": "object",
+        "%MISSING_CREATION_UPDATE_LINES": "object",
+        "MISSING_UPDATE_CLOSE_LINES": "object",
+        "%MISSING_UPDATE_CLOSE_LINES": "object",
+        "MISSING_CREATION_UPDATE_CLOSE_LINES": "object",
+        "%MISSING_CREATION_UPDATE_CLOSE_LINES": "object"})
+
+    output_path = Path(output_path)
+    file_path = output_path.joinpath("Missing-sonar-issues-revision-information.csv")
+    result_df.to_csv(file_path, index=False, header=True)
