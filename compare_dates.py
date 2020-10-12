@@ -213,7 +213,7 @@ def get_sonar_issues_match_info(file_path, file_name, project_name):
                                        (analysis_commit_df['date'] == row['update_date'])]
 
             if check.empty:
-                print("update date {0}".format(row['update_date']))
+                # print("update date {0}".format(row['update_date']))
                 count_update_date_missing += 1
 
         if row['creation_date'] and row['update_date']:
@@ -222,7 +222,7 @@ def get_sonar_issues_match_info(file_path, file_name, project_name):
                                         (analysis_commit_df['date'] == row['update_date']))]
 
             if check.empty:
-                print("create update date {0} {1}".format(row['creation_date'], row['update_date']))
+                # print("create update date {0} {1}".format(row['creation_date'], row['update_date']))
                 count_creation_update_date_missing += 1
 
         if row['update_date'] and row['close_date']:
@@ -231,7 +231,7 @@ def get_sonar_issues_match_info(file_path, file_name, project_name):
                                         (analysis_commit_df['date'] == row['close_date']))]
 
             if check.empty:
-                print("update close date {0} {1}".format(row['update_date'], row['close_date']))
+                # print("update close date {0} {1}".format(row['update_date'], row['close_date']))
                 count_update_close_date_missing += 1
 
         if row['creation_date'] and row['update_date'] and row['close_date']:
@@ -241,7 +241,7 @@ def get_sonar_issues_match_info(file_path, file_name, project_name):
                                         (analysis_commit_df['date'] == row['close_date']))]
 
             if check.empty:
-                print("update close date {0} {1}".format(row['update_date'], row['close_date']))
+                # print("update close date {0} {1}".format(row['update_date'], row['close_date']))
                 count_creation_update_close_date_missing += 1
     print('{0} {1} {2} {3} {4} {5} {6}'.format(
         project_name,
@@ -278,5 +278,5 @@ if __name__ == '__main__':
     output_path = args['output_path']
     projects = pd.read_csv(output_path + "/projects_list.csv")
     for pos, row in projects.iterrows():
-        # if row.projectID == 'felix':
-        get_sonar_issues_match_info(file_path=output_path, file_name=row.sonarProjectKey, project_name=row.projectID)
+        if row.projectID == 'accumulo':
+            get_sonar_issues_match_info(file_path=output_path, file_name=row.sonarProjectKey, project_name=row.projectID)
