@@ -74,18 +74,21 @@ if __name__ == '__main__':
     projects = pd.read_csv(output_path + "/projects_list.csv")
     compare_dates = []
     for pos, row in projects.iterrows():
-        if row.projectID == 'el':
+        if (row.projectID == 'el') | (row.projectID == 'Lucene-core'):
             continue
         sonar_project_key = row.sonarProjectKey
         commit_file = row.sonarProjectKey
+        '''
         if row.projectID == 'zookeeper':
             sonar_project_key = 'org_apache_zookeper2'
             commit_file = 'org.apache_zookeeper'
         if row.projectID == 'accumulo':
-            result = compare_commit_and_analysis_dates(save_file_path=output_path, analysis_file=sonar_project_key,
-                                                       commit_file=commit_file, project_name=row.projectID)
-            print(result)
-            compare_dates.append(result)
+        '''
+        print(row.projectID)
+        result = compare_commit_and_analysis_dates(save_file_path=output_path, analysis_file=sonar_project_key,
+                                                   commit_file=commit_file, project_name=row.projectID)
+        print(result)
+        compare_dates.append(result)
 
     df = pd.DataFrame(data=compare_dates, columns={
            "project": "object",
