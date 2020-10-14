@@ -14,45 +14,55 @@ def compare_commit_and_analysis_dates(save_file_path, analysis_file, commit_file
         analysis_file.replace(' ', '_').replace(':', '_')))
     creation_dates = issues_df['creation_date'].tolist()
     close_dates = issues_df['close_date'].tolist()
-    no_duplicates = sorted(np.unique(creation_dates + close_dates))
-    no_duplicates = list(filter(None, no_duplicates))
+    no_duplicate_dates = sorted(np.unique(creation_dates + close_dates))
+    no_duplicate_dates = list(filter(None, no_duplicate_dates))
 
     analysis_df = pd.read_csv(save_file_path + "/analysis/" + "{0}.csv".format(
             analysis_file.replace(' ', '_').replace(':', '_')))
 
-    missing_dates_in_analysis = list(set(no_duplicates) - set(analysis_df['date']))
+    missing_dates_in_analysis = list(set(no_duplicate_dates) - set(analysis_df['date']))
     missing_dates_in_analysis = [x for x in missing_dates_in_analysis if str(x) != 'nan']
     new_dates = {'date': missing_dates_in_analysis}
     analysis_df = analysis_df.append(pd.DataFrame(new_dates))
-
     commits_df = pd.read_csv(save_file_path + "/Git_Logs/" + "{0}.csv".format(
                 commit_file.replace(' ', '_').replace(':', '_')))
 
-    analysis_commit_df = pd.merge(analysis_df, commits_df, how='left', left_on=['date'], right_on=['AUTHOR_DATE'])
+    commits_df.rename(columns={'AUTHOR_DATE': 'date'}, inplace=True)
+    analysis_commit_df = pd.merge(analysis_df, commits_df[['date', 'HASH']], how='left', on='date')
     analysis_commit_df = analysis_commit_df.drop_duplicates(subset=['date'])
-    analysis_commit_df = analysis_commit_df.drop(columns=['AUTHOR_NAME', 'AUTHOR_EMAIL', 'AUTHOR_DATE',
-                                                          'AUTHOR_TIMEZONE', 'COMMITTER_NAME', 'COMMITTER_EMAIL',
-                                                          'COMMITTER_DATE', 'COMMITTER_TIMEZONE', 'BRANCHES',
-                                                          'IN_MAIN_BRANCH', 'IS_MERGE_COMMIT', 'MODIFIED_FILES',
-                                                          'NUM_LINES_ADDED', 'NUM_LINES_REMOVED', 'COMMIT_PARENTS',
-                                                          'PROJECT_NAME', 'DMM_UNIT_SIZE', 'DMM_UNIT_COMPLEXITY',
-                                                          'DMM_UNIT_INTERFACING', 'revision'])
+    analysis_commit_df = analysis_commit_df.drop(columns=['revision'])
     analysis_commit_df.rename(columns={'HASH': 'revision'}, inplace=True)
-    analysis_commit_df.dropna(subset=['revision'], inplace=True)
-    new_analysis_path = Path(save_file_path).joinpath("updated_analysis")
+
+    new_analysis_path = Path(save_file_path).joinpath("compared_analysis_and_commit")
     new_analysis_path.mkdir(parents=True, exist_ok=True)
     analysis_file_path = new_analysis_path.joinpath("{0}.csv".format(
         analysis_file.replace(' ', '_').replace(':', '_')))
 
     analysis_commit_df.to_csv(analysis_file_path, index=False, header=True)
 
-    analysis_commit_df = analysis_commit_df.assign(DATE_MATCH=analysis_commit_df.date.isin(commits_df.AUTHOR_DATE).astype(int))
-    analysis_commit_df['COMMIT_DATE'] = analysis_commit_df['date']
-    compared = json.loads(analysis_commit_df['DATE_MATCH'].value_counts().to_json())
+    analysis_with_revision_value = analysis_commit_df.dropna(subset=['revision'])
+    new_analysis_path = Path(save_file_path).joinpath("analysis_with_revision_value")
+    new_analysis_path.mkdir(parents=True, exist_ok=True)
+    analysis_file_path = new_analysis_path.joinpath("{0}.csv".format(
+        analysis_file.replace(' ', '_').replace(':', '_')))
+    analysis_with_revision_value.to_csv(analysis_file_path, index=False, header=True)
+
+    # test_analysis_path = Path(save_file_path).joinpath("commit_analysis")
+    # test_analysis_path.mkdir(parents=True, exist_ok=True)
+    # test_analysis_path = test_analysis_path.joinpath("{0}.csv".format(
+    #     analysis_file.replace(' ', '_').replace(':', '_')))
+    #
+    # analysis_df.to_csv(test_analysis_path, index=False, header=True)
+
+    commits_df.rename(columns={'date': 'AUTHOR_DATE'}, inplace=True)
+    analysis_with_commit_match_info = analysis_commit_df.assign(
+        DATE_MATCH=analysis_commit_df.date.isin(commits_df.AUTHOR_DATE).astype(int))
+
+    compared = json.loads(analysis_with_commit_match_info['DATE_MATCH'].value_counts().to_json())
     not_matched = 0 if '0' not in compared else compared['0']
     matched = 0 if '1' not in compared else compared['1']
-    frac, whole = math.modf((matched/(len(analysis_commit_df.index))*100))
-    percentage = whole if whole > 95 else math.ceil(matched/(len(analysis_commit_df.index))*100)
+    frac, whole = math.modf((matched/(len(analysis_with_commit_match_info.index))*100))
+    percentage = whole if whole > 95 else math.ceil(matched/(len(analysis_with_commit_match_info.index))*100)
     return project_name, not_matched, matched, percentage
 
 
