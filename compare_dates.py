@@ -164,41 +164,15 @@ def get_percentage(total_issues, count):
 
 
 def get_sonar_issues_match_info(file_path, file_name, project_name):
-    analysis_df = pd.read_csv(file_path + "/analysis/" + "{0}.csv".format(
+    analysis_commit_df = pd.read_csv(file_path + "/analysis_with_revision_value/" + "{0}.csv".format(
         file_name.replace(' ', '_').replace(':', '_')))
-
-    # The commit hash file of the given project in /sonar_data/Git_Logs/ directory
-    # For this file, I have used Savanna's script which generates the commit log history of a project and
-    # saved it in /sonar_data/Git_logs/ directory manually
-    commits_df = pd.read_csv(file_path + "/Git_Logs/" + "{0}.csv".format(
-        file_name.replace(' ', '_').replace(':', '_')))
-
-    analysis_commit_df = pd.merge(analysis_df, commits_df, how='left', left_on=['date'], right_on=['AUTHOR_DATE'])
-    analysis_commit_df = analysis_commit_df.drop_duplicates(subset=['date'])
-    analysis_commit_df = analysis_commit_df.drop(columns=['AUTHOR_NAME', 'AUTHOR_EMAIL', 'AUTHOR_DATE',
-                                                          'AUTHOR_TIMEZONE', 'COMMITTER_NAME', 'COMMITTER_EMAIL',
-                                                          'COMMITTER_DATE', 'COMMITTER_TIMEZONE', 'BRANCHES',
-                                                          'IN_MAIN_BRANCH', 'IS_MERGE_COMMIT', 'MODIFIED_FILES',
-                                                          'NUM_LINES_ADDED', 'NUM_LINES_REMOVED', 'COMMIT_PARENTS',
-                                                          'PROJECT_NAME', 'DMM_UNIT_SIZE', 'DMM_UNIT_COMPLEXITY',
-                                                          'DMM_UNIT_INTERFACING', 'revision'])
-    analysis_commit_df.rename(columns={'HASH': 'revision'}, inplace=True)
-    analysis_commit_df.dropna(subset=['revision'], inplace=True)
-
-    save_file_path = Path(file_path).joinpath("analysis_commit")
-    save_file_path.mkdir(parents=True, exist_ok=True)
-    save_file_path = save_file_path.joinpath("sonar_analysis_commits_{0}.csv".format(project_name))
-    analysis_commit_df.to_csv(save_file_path, index=False, header=True)
 
     issues_df = pd.read_csv(file_path + "/issues/" + "{0}.csv".format(file_name.replace(' ', '_').replace(':', '_')))
     num_of_lines_in_issues = len(issues_df.index)
 
     count_create_date_missing = 0
     count_create_close_date_missing = 0
-    count_update_date_missing = 0
-    count_creation_update_date_missing = 0
-    count_update_close_date_missing = 0
-    count_creation_update_close_date_missing = 0
+    count_close_date_missing = 0
     for index, row in issues_df.iterrows():
         if row['creation_date']:
             check = analysis_commit_df[analysis_commit_df['date'] == row['creation_date']]
@@ -215,51 +189,20 @@ def get_sonar_issues_match_info(file_path, file_name, project_name):
                 # print("create close date {0} {1}".format(row['creation_date'], row['close_date']))
                 count_create_close_date_missing += 1
 
-        if row['update_date']:
-            check = analysis_commit_df[analysis_commit_df['date'] == row['update_date']]
+        if row['close_date']:
+            check = analysis_commit_df[analysis_commit_df['date'] == row['close_date']]
 
             if check.empty:
-                # print("update date {0}".format(row['update_date']))
-                count_update_date_missing += 1
-
-        if row['creation_date'] and row['update_date']:
-            check = analysis_commit_df[(analysis_commit_df['date'] == row['creation_date']) |
-                                       (analysis_commit_df['date'] == row['update_date'])]
-
-            if check.empty:
-                # print("create update date {0} {1}".format(row['creation_date'], row['update_date']))
-                count_creation_update_date_missing += 1
-
-        if row['update_date'] and row['close_date']:
-            check = analysis_commit_df[(analysis_commit_df['date'] == row['update_date']) |
-                                       (analysis_commit_df['date'] == row['close_date'])]
-
-            if check.empty:
-                # print("update close date {0} {1}".format(row['update_date'], row['close_date']))
-                count_update_close_date_missing += 1
-
-        if row['creation_date'] and row['update_date'] and row['close_date']:
-            check = analysis_commit_df[((analysis_commit_df['date'] == row['creation_date']) |
-                                        (analysis_commit_df['date'] == row['update_date']) |
-                                        (analysis_commit_df['date'] == row['close_date']))]
-
-            if check.empty:
-                # print("update close date {0} {1}".format(row['update_date'], row['close_date']))
-                count_creation_update_close_date_missing += 1
+                # print("close date {0}".format(row['close_date']))
+                count_close_date_missing += 1
 
     return (project_name, num_of_lines_in_issues,
             count_create_date_missing,
             get_percentage(total_issues=num_of_lines_in_issues, count=count_create_date_missing),
             count_create_close_date_missing,
             get_percentage(total_issues=num_of_lines_in_issues, count=count_create_close_date_missing),
-            count_update_date_missing,
-            get_percentage(total_issues=num_of_lines_in_issues, count=count_update_date_missing),
-            count_creation_update_date_missing,
-            get_percentage(total_issues=num_of_lines_in_issues, count=count_creation_update_date_missing),
-            count_update_close_date_missing,
-            get_percentage(total_issues=num_of_lines_in_issues, count=count_update_close_date_missing),
-            count_creation_update_close_date_missing,
-            get_percentage(total_issues=num_of_lines_in_issues, count=count_creation_update_close_date_missing))
+            count_close_date_missing,
+            get_percentage(total_issues=num_of_lines_in_issues, count=count_close_date_missing))
 
 # Press the green button in the gutter to run the script.
 
@@ -272,10 +215,12 @@ if __name__ == '__main__':
     projects = pd.read_csv(output_path + "/projects_list.csv")
     data = []
     for pos, row in projects.iterrows():
-        if row.projectID == 'batik':
-            result = get_sonar_issues_match_info(file_path=output_path, file_name=row.sonarProjectKey,
-                                                 project_name=row.projectID)
-            data.append(result)
+        if (row.projectID == 'el') | (row.projectID == 'Lucene-core'):
+            continue
+        result = get_sonar_issues_match_info(file_path=output_path, file_name=row.sonarProjectKey,
+                                             project_name=row.projectID)
+        print(result)
+        data.append(result)
 
     result_df = pd.DataFrame(data=data, columns={
         "project": "object",
@@ -284,14 +229,9 @@ if __name__ == '__main__':
         "%MISSING_CREATION_ONLY_LINES": "object",
         "MISSING_CREATION_CLOSE_LINES": "object",
         "%MISSING_CREATION_CLOSE_LINES": "object",
-        "MISSING_UPDATE_LINES": "object",
-        "%MISSING_UPDATE_LINES": "object",
-        "MISSING_CREATION_UPDATE_LINES": "object",
-        "%MISSING_CREATION_UPDATE_LINES": "object",
-        "MISSING_UPDATE_CLOSE_LINES": "object",
-        "%MISSING_UPDATE_CLOSE_LINES": "object",
-        "MISSING_CREATION_UPDATE_CLOSE_LINES": "object",
-        "%MISSING_CREATION_UPDATE_CLOSE_LINES": "object"})
+        "MISSING_CLOSE_LINES": "object",
+        "%MISSING_CLOSE_LINES": "object"
+    })
 
     output_path = Path(output_path)
     file_path = output_path.joinpath("Missing-sonar-issues-revision-information.csv")
