@@ -83,11 +83,12 @@ if __name__ == '__main__':
             commit_file = 'org.apache_zookeeper'
         if row.projectID == 'accumulo':
         '''
-        print(row.projectID)
-        result = compare_commit_and_analysis_dates(save_file_path=output_path, analysis_file=sonar_project_key,
-                                                   commit_file=commit_file, project_name=row.projectID)
-        print(result)
-        compare_dates.append(result)
+        if row.projectID == 'commons-jelly':
+            print(row.projectID)
+            result = compare_commit_and_analysis_dates(save_file_path=output_path, analysis_file=sonar_project_key,
+                                                       commit_file=commit_file, project_name=row.projectID)
+            print(result)
+            compare_dates.append(result)
 
     df = pd.DataFrame(data=compare_dates, columns={
            "project": "object",
