@@ -36,14 +36,14 @@ def compare_commit_and_analysis_dates(save_file_path, analysis_file, commit_file
     new_analysis_path.mkdir(parents=True, exist_ok=True)
     analysis_file_path = new_analysis_path.joinpath("{0}.csv".format(
         analysis_file.replace(' ', '_').replace(':', '_')))
-    # analysis_commit_df.to_csv(analysis_file_path, index=False, header=True)
+    analysis_commit_df.to_csv(analysis_file_path, index=False, header=True)
 
     analysis_with_revision_value = analysis_commit_df.dropna(subset=['revision'])
     new_analysis_path = Path(save_file_path).joinpath("analysis_with_revision_value")
     new_analysis_path.mkdir(parents=True, exist_ok=True)
     analysis_file_path = new_analysis_path.joinpath("{0}.csv".format(
         analysis_file.replace(' ', '_').replace(':', '_')))
-    # analysis_with_revision_value.to_csv(analysis_file_path, index=False, header=True)
+    analysis_with_revision_value.to_csv(analysis_file_path, index=False, header=True)
 
     # test_analysis_path = Path(save_file_path).joinpath("commit_analysis")
     # test_analysis_path.mkdir(parents=True, exist_ok=True)
@@ -57,7 +57,6 @@ def compare_commit_and_analysis_dates(save_file_path, analysis_file, commit_file
         DATE_MATCH=analysis_commit_df.date.isin(commits_df.AUTHOR_DATE).astype(int))
 
     compared = json.loads(analysis_with_commit_match_info['DATE_MATCH'].value_counts().to_json())
-    print(compared)
     not_matched = 0 if '0' not in compared else compared['0']
     matched = 0 if '1' not in compared else compared['1']
     frac, whole = math.modf((matched/(len(analysis_with_commit_match_info.index))*100))
@@ -100,6 +99,6 @@ if __name__ == '__main__':
     output_path = output_path.joinpath("commit-hash-analysis")
     output_path.mkdir(parents=True, exist_ok=True)
     file_path = output_path.joinpath("Commit-hash-sonar-analysis-match-report.csv")
-    # df.to_csv(file_path, index=False, header=True)
+    df.to_csv(file_path, index=False, header=True)
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

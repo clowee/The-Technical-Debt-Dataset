@@ -168,32 +168,87 @@ def get_sonar_issues_match_info(file_path, file_name, project_name):
         file_name.replace(' ', '_').replace(':', '_')))
 
     issues_df = pd.read_csv(file_path + "/issues/" + "{0}.csv".format(file_name.replace(' ', '_').replace(':', '_')))
-    num_of_lines_in_issues = len(issues_df.index)
-
-    count_create_date_missing = 0
-    count_create_close_date_missing = 0
-    count_close_date_missing = 0
+    indexes = set()
+    issues_df['not_found'] = 0
     for index, row in issues_df.iterrows():
-        if row['creation_date']:
+        if pd.isnull(row['close_date']):
             check = analysis_commit_df[analysis_commit_df['date'] == row['creation_date']]
 
             if check.empty:
+                issues_df.at[index, 'not_found'] = 1
+                indexes.add(index)
+        else:
+            check_close_date = analysis_commit_df[analysis_commit_df['date'] == row['close_date']]
+            check_open_date = analysis_commit_df[analysis_commit_df['date'] == row['creation_date']]
+
+            if check_close_date.empty:
+                if not check_open_date.empty:
+                    sliced_issues = issues_df.iloc[index:]
+                    component = row['component']
+                    found = False
+                    for _index, _row in sliced_issues.iterrows():
+                        if _row['component'] == component:
+                            if not pd.isnull(_row['close_date']):
+                                create_date_found = analysis_commit_df[analysis_commit_df['date'] == _row['creation_date']]
+                                close_date_found = analysis_commit_df[analysis_commit_df['date'] == _row['close_date']]
+
+                                if not create_date_found.empty and not close_date_found.empty:
+                                    found = True
+                                    issues_df.at[_index, 'creation_date'] = row['creation_date']
+                                    break
+                                else:
+                                    issues_df.at[_index, 'not_found'] = 1
+                                    indexes.add(_index)
+                    if not found:
+                        issues_df.at[index, 'close_date'] = ""
+                else:
+                    issues_df.at[index, 'not_found'] = 1
+                    indexes.add(index)
+            else:
+                if check_open_date.empty:
+                    issues_df.at[index, 'not_found'] = 1
+                    indexes.add(index)
+
+    indexes_to_keep = set(range(issues_df.shape[0])) - set(indexes)
+    issues_df = issues_df.take(list(indexes_to_keep))
+    new_issue_path = Path(file_path).joinpath("updated_issues")
+    new_issue_path.mkdir(parents=True, exist_ok=True)
+    new_issue_path = new_issue_path.joinpath("{0}.csv".format(
+        file_name.replace(' ', '_').replace(':', '_')))
+    issues_df.to_csv(new_issue_path, index=False, header=True)
+
+    num_of_lines_in_issues = len(issues_df.index)
+    count_create_date_missing = 0
+    count_create_close_date_missing = 0
+    count_close_date_missing = 0
+    missing_creation_date = set()
+    missing_creation_close_date = set()
+    missing_close_date = set()
+    #
+    for index, row in issues_df.iterrows():
+
+        if pd.notnull(row['creation_date']):
+            check = analysis_commit_df[analysis_commit_df['date'] == row['creation_date']]
+
+            if check.empty:
+                missing_creation_date.add(row['creation_date'])
                 # print("create date {0}".format(row['creation_date']))
                 count_create_date_missing += 1
 
-        if row['creation_date'] and row['close_date']:
+        if row['creation_date'] and pd.notnull(row['close_date']):
             check = analysis_commit_df[(analysis_commit_df['date'] == row['creation_date']) |
                                        (analysis_commit_df['date'] == row['close_date'])]
 
             if check.empty:
-                # print("create close date {0} {1}".format(row['creation_date'], row['close_date']))
+                missing_creation_close_date.add(row['creation_date'])
+                missing_creation_close_date.add(row['close_date'])
                 count_create_close_date_missing += 1
 
-        if row['close_date']:
+        if pd.notnull(row['close_date']):
             check = analysis_commit_df[analysis_commit_df['date'] == row['close_date']]
 
             if check.empty:
-                # print("close date {0}".format(row['close_date']))
+                missing_close_date.add(row['close_date'])
                 count_close_date_missing += 1
 
     return (project_name, num_of_lines_in_issues,
@@ -214,13 +269,17 @@ if __name__ == '__main__':
     output_path = args['output_path']
     projects = pd.read_csv(output_path + "/projects_list.csv")
     data = []
+    ignore_projects_index = [1, 2, 3, 6, 29, 33, 34, 39, 40, 42, 43, 45, 46, 47, 48, 49, 50, 51]
     for pos, row in projects.iterrows():
+        if pos not in ignore_projects_index:
+            print('{0} ... {1}'.format(pos, row.projectID))
         if (row.projectID == 'el') | (row.projectID == 'Lucene-core'):
             continue
-        result = get_sonar_issues_match_info(file_path=output_path, file_name=row.sonarProjectKey,
-                                             project_name=row.projectID)
-        print(result)
-        data.append(result)
+        if row.projectID == 'commons-jexl':
+            result = get_sonar_issues_match_info(file_path=output_path, file_name=row.sonarProjectKey,
+                                                 project_name=row.projectID)
+            print(result)
+            data.append(result)
 
     result_df = pd.DataFrame(data=data, columns={
         "project": "object",
