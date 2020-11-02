@@ -273,9 +273,9 @@ if __name__ == '__main__':
     for pos, row in projects.iterrows():
         if pos not in ignore_projects_index:
             print('{0} ... {1}'.format(pos, row.projectID))
-        if (row.projectID == 'el') | (row.projectID == 'Lucene-core'):
-            continue
-        if row.projectID == 'commons-jexl':
+            if (row.projectID == 'el') | (row.projectID == 'Lucene-core'):
+                continue
+            # if row.projectID == 'commons-jexl':
             result = get_sonar_issues_match_info(file_path=output_path, file_name=row.sonarProjectKey,
                                                  project_name=row.projectID)
             print(result)
