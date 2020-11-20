@@ -12,11 +12,12 @@ def fix_analysis(save_file_path, sonarProjectKey, project_name):
         issues_df = pd.read_csv(save_file_path + "/updated_issues/" + "{0}.csv".format(
             sonarProjectKey.replace(' ', '_').replace(':', '_')))
 
-        new_issues_df = (issues_df[['date']].merge(analysis_df, on='close_date', how='left')
+        issues_df.rename(columns={'close_date': 'date'}, inplace=True)
+        new_issues_df = (issues_df[['date']].merge(analysis_df, on='date', how='left')
                          .rename(columns={'analysis_key': 'close_analysis_key'}))
 
-        print(len(issues_df))
-        print(len(new_issues_df))
+        print((new_issues_df['date'].values == '').sum())
+        print((new_issues_df['close_analysis_key'].values == '').sum())
         # new_issues_path = Path(save_file_path).joinpath("issue_with_analysis")
         # new_issues_path.mkdir(parents=True, exist_ok=True)
         # issues_file_path = new_issues_path.joinpath("{0}.csv".format(
