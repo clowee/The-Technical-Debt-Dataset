@@ -8,8 +8,6 @@ import math
 
 
 def compare_commit_and_analysis_dates(save_file_path, analysis_file, commit_file, project_name):
-    # The analysis of the given project in /sonar_data/analysis/ directory
-    # print(analysis_file)
     issues_df = pd.read_csv(save_file_path + "/issues/" + "{0}.csv".format(
         analysis_file.replace(' ', '_').replace(':', '_')))
     creation_dates = issues_df['creation_date'].tolist()
@@ -71,21 +69,25 @@ if __name__ == '__main__':
     output_path = args['output_path']
     projects = pd.read_csv(output_path + "/projects_list.csv")
     compare_dates = []
+    ignore_projects_index = [1, 2, 3, 6, 29, 33, 34, 39, 40, 42, 43, 45, 46, 47, 48, 49, 50, 51]
     for pos, row in projects.iterrows():
-        if (row.projectID == 'el') | (row.projectID == 'Lucene-core'):
-            continue
-        sonar_project_key = row.sonarProjectKey
-        commit_file = row.sonarProjectKey
-        '''
-        if row.projectID == 'zookeeper':
-            sonar_project_key = 'org_apache_zookeper2'
-            commit_file = 'org.apache_zookeeper'
-        if row.projectID == 'accumulo':
-        '''
-        if row.projectID == 'commons-jelly':
+        if pos not in ignore_projects_index:
+            if (row.projectID == 'el') |\
+                    (row.projectID == 'Lucene-core') |\
+                    (row.projectId == 'accumulo') |\
+                    (row.projectId == 'syncope'):
+                continue
+            sonar_project_key = row.sonarProjectKey
+            commit_file = row.sonarProjectKey
+            '''
+            if row.projectID == 'zookeeper':
+                sonar_project_key = 'org_apache_zookeper2'
+                commit_file = 'org.apache_zookeeper'
+            if row.projectID == 'accumulo':
+            '''
             print(row.projectID)
             result = compare_commit_and_analysis_dates(save_file_path=output_path, analysis_file=sonar_project_key,
-                                                       commit_file=commit_file, project_name=row.projectID)
+                                                           commit_file=commit_file, project_name=row.projectID)
             print(result)
             compare_dates.append(result)
 

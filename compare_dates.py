@@ -13,25 +13,25 @@ import numpy as np
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
 
-# def compare_commit_and_analysis_dates(save_file_path, analysis_file, commit_file, project_name):
+def compare_commit_and_analysis_dates(save_file_path, analysis_file, commit_file, project_name):
 #     # The analysis of the given project in /sonar_data/analysis/ directory
-#     analysis_df = pd.read_csv(save_file_path + "/analysis/" + "{0}.csv".format(
-#             analysis_file.replace(' ', '_').replace(':', '_')))
+    analysis_df = pd.read_csv(save_file_path + "/analysis/" + "{0}.csv".format(
+            analysis_file.replace(' ', '_').replace(':', '_')))
 #
 #     # The commit hash file of the given project in /sonar_data/Git_Logs/ directory
 #     # For this file, I have used Savanna's script which generates the commit log history of a project and
 #     # saved it in /sonar_data/Git_logs/ directory manually
-#     commits_df = pd.read_csv(save_file_path + "/Git_Logs/" + "{0}.csv".format(
-#             commit_file.replace(' ', '_').replace(':', '_')))
+    commits_df = pd.read_csv(save_file_path + "/Git_Logs/" + "{0}.csv".format(
+            commit_file.replace(' ', '_').replace(':', '_')))
 #
-#     analysis_df = analysis_df.assign(DATE_MATCH=analysis_df.date.isin(commits_df.AUTHOR_DATE).astype(int))
-#     analysis_df['COMMIT_DATE'] = analysis_df['date']
-#     # compared = json.loads(analysis_df['DATE_MATCH'].value_counts().to_json())
-#     # not_matched = 0 if '0' not in compared else compared['0']
-#     # matched = 0 if '1' not in compared else compared['1']
-#     # return (project_name, not_matched, matched, (matched/(len(analysis_df.index))*100))
-#     # print('PROJECT: {0}, NOT MATCHED: {1}, MATCHED: {2}, MATCHED%: {3}'.format(project_name, not_matched, matched, (matched/(len(analysis_df.index))*100)))
-#     # print('-'*100)
+    analysis_df = analysis_df.assign(DATE_MATCH=analysis_df.date.isin(commits_df.AUTHOR_DATE).astype(int))
+    analysis_df['COMMIT_DATE'] = analysis_df['date']
+    compared = json.loads(analysis_df['DATE_MATCH'].value_counts().to_json())
+    not_matched = 0 if '0' not in compared else compared['0']
+    matched = 0 if '1' not in compared else compared['1']
+    print('PROJECT: {0}, NOT MATCHED: {1}, MATCHED: {2}, MATCHED%: {3}'.format(project_name, not_matched, matched, (matched/(len(analysis_df.index))*100)))
+    print('-'*100)
+    return 1
 #     analysis_df.loc[analysis_df['DATE_MATCH'] == 0, 'COMMIT_DATE'] = None
 #     # print(analysis_df)
 #     # compare_date_path = Path(save_file_path).joinpath("compare_date")
@@ -56,8 +56,12 @@ import numpy as np
 #     matched_commits = commits_df[commits_df.AUTHOR_DATE.isin(analysis_df.date)].drop_duplicates(subset=['AUTHOR_DATE'],
 #                                                                                                  keep='last')
 #     print("matched_commits_date_with_analysis_date: {0}".format(len(matched_commits)))
+#     print(project_name)
+#     print(len(analysis_df))
 #     matched_analysis = analysis_df[analysis_df.date.isin(commits_df.AUTHOR_DATE)]
+#     print(len(matched_analysis))
 #     matched_commits['MODIFIED_FILES'] = matched_commits.MODIFIED_FILES.apply(literal_eval)
+#     print(len(matched_commits))
 #
 #     creation_date = issues_df['creation_date'].tolist()
 #     update_date = issues_df['update_date'].tolist()
@@ -70,27 +74,31 @@ import numpy as np
 #
 #     rows = []
 #     not_found = False
+#     count = 0
 #     for index, item in matched_commits.iterrows():
 #         modified_files = sorted(item.loc['MODIFIED_FILES'])
-#         issues_of_create_date = issues_df[(issues_df['creation_date'] == item.loc['AUTHOR_DATE'])].drop_duplicates(
+#         issues_of_create_date = issues_df[(issues_df['creation_date'] == item.loc['AUTHOR_DATE']) | (issues_df['close_date'] == item.loc['AUTHOR_DATE'])].drop_duplicates(
 #             subset=['component'], keep='last')['component'].array
 #
 #         if issues_of_create_date:
+#             print(item.loc['AUTHOR_DATE'])
 #             component_files = sorted([os.path.basename(component) for component in issues_of_create_date])
 #             for i, _ in enumerate(component_files):
 #                 if component_files[i] == "org.apache:felix:pom.xml":
 #                     component_files[i] = 'pom.xml'
 #
 #             if all(item in modified_files for item in component_files):
-#                 analysis_row = matched_analysis[(matched_analysis['date'] == item.loc['AUTHOR_DATE'])]
-#                 line = (analysis_row['project'].values[0], analysis_row['analysis_key'].values[0],
-#                         analysis_row['date'].values[0], item.loc['HASH'])
-#                 rows.append(line)
-#                 not_found = False
+#                 count += 1
+#                 # analysis_row = matched_analysis[(matched_analysis['date'] == item.loc['AUTHOR_DATE'])]
+#                 # line = (analysis_row['project'].values[0], analysis_row['analysis_key'].values[0],
+#                 #         analysis_row['date'].values[0], item.loc['HASH'])
+#                 # # rows.append(line)
+#                 # not_found = False
 #             else:
 #                 not_found = True
 #         else:
 #             not_found = True
+#     print(count)
 #
 #         if not_found:
 #             issues_of_create_update_date = issues_df[
@@ -117,31 +125,30 @@ import numpy as np
 #             else:
 #                 not_found = True
 #
-#         if not_found:
-#             issues_of_create_update_close_date = issues_df[(
-#                     (issues_df['creation_date'] == item.loc['AUTHOR_DATE']) |
-#                     (issues_df['update_date'] == item.loc['AUTHOR_DATE']) |
-#                     (issues_df['close_date'] == item.loc['AUTHOR_DATE'])
-#             )].drop_duplicates(subset=['component'], keep='last')['component'].array
-#
-#             if issues_of_create_update_close_date:
-#                 component_files = sorted([os.path.basename(component)
-#                                           for component in issues_of_create_update_close_date])
-#
-#                 for i, _ in enumerate(component_files):
-#                     if component_files[i] == "org.apache:felix:pom.xml":
-#                         component_files[i] = 'pom.xml'
-#
-#                 if all(item in modified_files for item in component_files):
-#                     analysis_row = matched_analysis[(matched_analysis['date'] == item.loc['AUTHOR_DATE'])]
-#                     line = (analysis_row['project'].values[0], analysis_row['analysis_key'].values[0],
-#                             analysis_row['date'].values[0], item.loc['HASH'])
-#                     rows.append(line)
-#                     not_found = False
-#                 else:
-#                     not_found = True
-#             else:
-#                 not_found = True
+        # if not_found:
+        #     issues_of_create_update_close_date = issues_df[(
+        #             (issues_df['creation_date'] == item.loc['AUTHOR_DATE']) |
+        #             (issues_df['close_date'] == item.loc['AUTHOR_DATE'])
+        #     )].drop_duplicates(subset=['component'], keep='last')['component'].array
+        #
+        #     if issues_of_create_update_close_date:
+        #         component_files = sorted([os.path.basename(component)
+        #                                   for component in issues_of_create_update_close_date])
+        #
+        #         for i, _ in enumerate(component_files):
+        #             if component_files[i] == "org.apache:felix:pom.xml":
+        #                 component_files[i] = 'pom.xml'
+        #
+        #         if all(item in modified_files for item in component_files):
+        #             analysis_row = matched_analysis[(matched_analysis['date'] == item.loc['AUTHOR_DATE'])]
+        #             line = (analysis_row['project'].values[0], analysis_row['analysis_key'].values[0],
+        #                     analysis_row['date'].values[0], item.loc['HASH'])
+        #             rows.append(line)
+        #             not_found = False
+        #         else:
+        #             not_found = True
+        #     else:
+        #         not_found = True
 #
 #     print(len(rows))
 #     two_dates = list(zip(rows, rows[1:]))
@@ -167,47 +174,50 @@ def get_sonar_issues_match_info(file_path, file_name, project_name):
     analysis_commit_df = pd.read_csv(file_path + "/analysis_with_revision_value/" + "{0}.csv".format(
         file_name.replace(' ', '_').replace(':', '_')))
 
-    issues_df = pd.read_csv(file_path + "/issues/" + "{0}.csv".format(file_name.replace(' ', '_').replace(':', '_')))
+    issues_df = pd.read_csv(
+        file_path + "/issues/" + "{0}.csv".format(file_name.replace(' ', '_').replace(':', '_')))
+
     indexes = set()
     issues_df['not_found'] = 0
     for index, row in issues_df.iterrows():
-        if pd.isnull(row['close_date']):
-            check = analysis_commit_df[analysis_commit_df['date'] == row['creation_date']]
+        if index not in indexes:
+            if pd.isnull(row['close_date']):
+                check = analysis_commit_df[analysis_commit_df['date'] == row['creation_date']]
 
-            if check.empty:
-                issues_df.at[index, 'not_found'] = 1
-                indexes.add(index)
-        else:
-            check_close_date = analysis_commit_df[analysis_commit_df['date'] == row['close_date']]
-            check_open_date = analysis_commit_df[analysis_commit_df['date'] == row['creation_date']]
-
-            if check_close_date.empty:
-                if not check_open_date.empty:
-                    sliced_issues = issues_df.iloc[index:]
-                    component = row['component']
-                    found = False
-                    for _index, _row in sliced_issues.iterrows():
-                        if _row['component'] == component:
-                            if not pd.isnull(_row['close_date']):
-                                create_date_found = analysis_commit_df[analysis_commit_df['date'] == _row['creation_date']]
-                                close_date_found = analysis_commit_df[analysis_commit_df['date'] == _row['close_date']]
-
-                                if not create_date_found.empty and not close_date_found.empty:
-                                    found = True
-                                    issues_df.at[_index, 'creation_date'] = row['creation_date']
-                                    break
-                                else:
-                                    issues_df.at[_index, 'not_found'] = 1
-                                    indexes.add(_index)
-                    if not found:
-                        issues_df.at[index, 'close_date'] = ""
-                else:
+                if check.empty:
                     issues_df.at[index, 'not_found'] = 1
                     indexes.add(index)
             else:
-                if check_open_date.empty:
-                    issues_df.at[index, 'not_found'] = 1
-                    indexes.add(index)
+                check_close_date = analysis_commit_df[analysis_commit_df['date'] == row['close_date']]
+                check_open_date = analysis_commit_df[analysis_commit_df['date'] == row['creation_date']]
+
+                if check_close_date.empty:
+                    if not check_open_date.empty:
+                        sliced_issues = issues_df.iloc[index:]
+                        component = row['component']
+                        found = False
+                        for _index, _row in sliced_issues.iterrows():
+                            if _row['component'] == component:
+                                if not pd.isnull(_row['close_date']):
+                                    create_date_found = analysis_commit_df[analysis_commit_df['date'] == _row['creation_date']]
+                                    close_date_found = analysis_commit_df[analysis_commit_df['date'] == _row['close_date']]
+
+                                    if not create_date_found.empty and not close_date_found.empty:
+                                        found = True
+                                        issues_df.at[_index, 'creation_date'] = row['creation_date']
+                                        break
+                                    else:
+                                        issues_df.at[_index, 'not_found'] = 1
+                                        indexes.add(_index)
+                        if not found:
+                            issues_df.at[index, 'close_date'] = ""
+                    else:
+                        issues_df.at[index, 'not_found'] = 1
+                        indexes.add(index)
+                else:
+                    if check_open_date.empty:
+                        issues_df.at[index, 'not_found'] = 1
+                        indexes.add(index)
 
     indexes_to_keep = set(range(issues_df.shape[0])) - set(indexes)
     issues_df = issues_df.take(list(indexes_to_keep))
@@ -224,15 +234,13 @@ def get_sonar_issues_match_info(file_path, file_name, project_name):
     missing_creation_date = set()
     missing_creation_close_date = set()
     missing_close_date = set()
-    #
-    for index, row in issues_df.iterrows():
 
+    for index, row in issues_df.iterrows():
         if pd.notnull(row['creation_date']):
             check = analysis_commit_df[analysis_commit_df['date'] == row['creation_date']]
 
             if check.empty:
                 missing_creation_date.add(row['creation_date'])
-                # print("create date {0}".format(row['creation_date']))
                 count_create_date_missing += 1
 
         if row['creation_date'] and pd.notnull(row['close_date']):
@@ -259,8 +267,6 @@ def get_sonar_issues_match_info(file_path, file_name, project_name):
             count_close_date_missing,
             get_percentage(total_issues=num_of_lines_in_issues, count=count_close_date_missing))
 
-# Press the green button in the gutter to run the script.
-
 
 if __name__ == '__main__':
     ap = argparse.ArgumentParser()
@@ -272,13 +278,10 @@ if __name__ == '__main__':
     ignore_projects_index = [1, 2, 3, 6, 29, 33, 34, 39, 40, 42, 43, 45, 46, 47, 48, 49, 50, 51]
     for pos, row in projects.iterrows():
         if pos not in ignore_projects_index:
-            print('{0} ... {1}'.format(pos, row.projectID))
             if (row.projectID == 'el') | (row.projectID == 'Lucene-core'):
                 continue
-            # if row.projectID == 'commons-jexl':
             result = get_sonar_issues_match_info(file_path=output_path, file_name=row.sonarProjectKey,
                                                  project_name=row.projectID)
-            print(result)
             data.append(result)
 
     result_df = pd.DataFrame(data=data, columns={
