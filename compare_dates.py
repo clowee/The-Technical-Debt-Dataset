@@ -275,14 +275,10 @@ if __name__ == '__main__':
     output_path = args['output_path']
     projects = pd.read_csv(output_path + "/projects_list.csv")
     data = []
-    ignore_projects_index = [1, 2, 3, 6, 29, 33, 34, 39, 40, 42, 43, 45, 46, 47, 48, 49, 50, 51]
     for pos, row in projects.iterrows():
-        if pos not in ignore_projects_index:
-            if (row.projectID == 'el') | (row.projectID == 'Lucene-core'):
-                continue
-            result = get_sonar_issues_match_info(file_path=output_path, file_name=row.sonarProjectKey,
-                                                 project_name=row.projectID)
-            data.append(result)
+        result = get_sonar_issues_match_info(file_path=output_path, file_name=row.sonarProjectKey,
+                                             project_name=row.projectID)
+        data.append(result)
 
     result_df = pd.DataFrame(data=data, columns={
         "project": "object",

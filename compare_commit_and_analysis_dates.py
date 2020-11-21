@@ -69,27 +69,20 @@ if __name__ == '__main__':
     output_path = args['output_path']
     projects = pd.read_csv(output_path + "/projects_list.csv")
     compare_dates = []
-    ignore_projects_index = [1, 2, 3, 6, 29, 33, 34, 39, 40, 42, 43, 45, 46, 47, 48, 49, 50, 51]
     for pos, row in projects.iterrows():
-        if pos not in ignore_projects_index:
-            if (row.projectID == 'el') |\
-                    (row.projectID == 'Lucene-core') |\
-                    (row.projectId == 'accumulo') |\
-                    (row.projectId == 'syncope'):
-                continue
-            sonar_project_key = row.sonarProjectKey
-            commit_file = row.sonarProjectKey
-            '''
-            if row.projectID == 'zookeeper':
-                sonar_project_key = 'org_apache_zookeper2'
-                commit_file = 'org.apache_zookeeper'
-            if row.projectID == 'accumulo':
-            '''
-            print(row.projectID)
-            result = compare_commit_and_analysis_dates(save_file_path=output_path, analysis_file=sonar_project_key,
-                                                           commit_file=commit_file, project_name=row.projectID)
-            print(result)
-            compare_dates.append(result)
+        sonar_project_key = row.sonarProjectKey
+        commit_file = row.sonarProjectKey
+        '''
+        if row.projectID == 'zookeeper':
+            sonar_project_key = 'org_apache_zookeper2'
+            commit_file = 'org.apache_zookeeper'
+        if row.projectID == 'accumulo':
+        '''
+        print(row.projectID)
+        result = compare_commit_and_analysis_dates(save_file_path=output_path, analysis_file=sonar_project_key,
+                                                   commit_file=commit_file, project_name=row.projectID)
+        print(result)
+        compare_dates.append(result)
 
     df = pd.DataFrame(data=compare_dates, columns={
            "project": "object",
