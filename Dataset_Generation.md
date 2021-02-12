@@ -12,8 +12,8 @@
     * Download [Refactoring miner](https://github.com/tsantalis/RefactoringMiner) 
    * Execute refactoring miner on all the projects. You can execute it on all the commits or on a subset of commits.  
   `example: RefactoringMiner -bc archiva 374fc983abc92df8aa4f8ef30caee94b34312ad2 b2332f00ba4bcdc76aebaf03d93916faf132cbd8` 
-6. JIRA_ISSUES
-    * Execute the script Jira.py 
-
+6. SZZ and Jira issues
+    * Execute [OpenSZZ](https://github.com/clowee/OpenSZZ)
+        * OpenSZZ enable to extract both the table Jira Issues and SZZ_FAULT_INDUCING_COMMITS
 
 
