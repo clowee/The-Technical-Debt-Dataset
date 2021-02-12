@@ -1,4 +1,4 @@
-#How to generate the dataset or to add new data
+# How to generate the dataset 
 
 1. Prepare a list of projects you want to analyze adding all the metadata required (see projects.csv)
 2. Clone the git projects you want to analyze
