@@ -52,16 +52,9 @@ GROUP BY SONAR_ISSUES.projectID
 
 
 
-**Get the commit message and author of all the commits fixing a SonarQube issue in any branch.**
 
-```sql
-SELECT  GIT_COMMITS.commitMessage,  GIT_COMMITS.author
-FROM	SZZ_FAULT_INDUCING_COMMITS
-JOIN  GIT_COMMITS
-ON SZZ_FAULT_INDUCING_COMMITS.faultFixingCommitHash = GIT_COMMITS.commitHash
-```
-
-It is important to note that the dataset has been created analyzing all the commits of each project, **without considering branches**. Moreover, the **Technical Debt items were exported as reported by the tools. We did not excluded duplications nor filtered any technical debt issues**, since we aimed at providing to the community exactly what is proided by the tools.  
+It is important to note that the dataset (V1) has been created analyzing all the commits of each project, **without considering branches**. Moreover, the **Technical Debt items were exported as reported by the tools. We did not excluded duplications nor filtered any technical debt issues**, since we aimed at providing to the community exactly what is proided by the tools. 
+**In V2, instead, we analyzed only the master branch.**
 If you are interested to filter issues, considering only unique Technical Debt Items, filter commits in the branch you are interested to analyze (Table GIT_COMMITS, Attrigute 'branches'). Considering all the commits, would result in duplicated items.  
 
 
