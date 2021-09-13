@@ -2,7 +2,9 @@
 
 This is the official repository of the "Technical Debt Dataset" [1]. 
 
-The current release is 1.01 
+There are two versions of the dataset: 
+* release 1.01 (32 projects, all branches analyzed, not recommended if you need to use sonarqube data (we found some issues with the analysis timeline) 
+* release 2.0 (31 projects, only master branch analyzed). 
 
 * [**download**](https://github.com/clowee/The-Technical-Debt-Dataset/releases)
 * [**submit new issues and corrections**](https://github.com/clowee/The-Technical-Debt-Dataset/issues)
