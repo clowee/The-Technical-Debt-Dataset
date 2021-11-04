@@ -100,7 +100,7 @@ We are also looking for contributors to automate the analysis pipeline. If you a
 ## License
 The Technical Debt Dataset has been developed only for research purposes. It includes the historical analysis of each public repository, including commit messages, timestamps, author names, and email addresses. Information from GitHub is stored in accordance with GitHub Terms of Service (GHTS), which explicitly allow extracting and redistributing public information for research purposes ([GitHub Terms of Service](https://docs.github.com/en/github/site-policy/github-terms-of-service) Accessed: May 2019). 
 
-The _Technical Debt Dataset_ is licensed under a Creative Commons Attribution-NonCommercial- ShareAlike 4.0 International license.
+The _Technical Debt Dataset_ is licensed under a [Creative Commons Attribution-NonCommercial- ShareAlike 4.0 International license](https://creativecommons.org/licenses/by-nc-sa/4.0/).
 
  ## Empirical studies based on the Technical Debt Dataset
 The _Technical Debt Dataset_ has been used in different works: 
