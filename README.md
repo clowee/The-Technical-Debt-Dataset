@@ -61,7 +61,7 @@ If you are interested to filter issues, considering only unique Technical Debt I
 
 ## How to cite 
 
-Please, cite as "The Technical Debt Dataset, Version 1.0 [1]"
+Please, cite as "The Technical Debt Dataset, Version XX [1]", where XX is the appropriate version.
 
 [1] Valentina Lenarduzzi, Nyyti Saarimäki, Davide Taibi. The Technical Debt Dataset. Proceedings for the 15th Conference on Predictive Models and Data Analytics in Software Engineering. Brazil. 2019. 
 [Download the paper](http://www.taibi.it/sites/default/files/2019%20-%20Promise%20-%20The%20Technical%20Debt%20Dataset%20-%20ACM%20Version.pdf)
