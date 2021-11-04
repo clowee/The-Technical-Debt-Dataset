@@ -38,15 +38,15 @@ Here are two simple examples:
 **Get the number of "Bug" and "Vulnerability" SonarQube issues in all the branches of a project.**
 
 ```sql
-SELECT  SONAR_ISSUES.projectID,  count(SONAR_ISSUES.projectID)  AS  numberOfBugIssues,  numberOfVulnerabilityIssues
+SELECT  SONAR_ISSUES.PROJECT_ID,  count(SONAR_ISSUES.PROJECT_ID)  AS  numberOfBugIssues,  numberOfVulnerabilityIssues
 FROM SONAR_ISSUES
 JOIN
-(SELECT  SONAR_ISSUES.projectID,  count(SONAR_ISSUES.projectID)  AS  numberOfVulnerabilityIssues
+(SELECT  SONAR_ISSUES.PROJECT_ID,  count(SONAR_ISSUES.PROJECT_ID)  AS  numberOfVulnerabilityIssues
 FROM SONAR_ISSUES
 WHERE  TYPE='VULNERABILITY'
-GROUP BY SONAR_ISSUES.projectID) AS V ON SONAR_ISSUES.projectID = V.projectID
+GROUP BY SONAR_ISSUES.PROJECT_ID) AS V ON SONAR_ISSUES.PROJECT_ID = V.PROJECT_ID
 WHERE TYPE='BUG'
-GROUP BY SONAR_ISSUES.projectID
+GROUP BY SONAR_ISSUES.PROJECT_ID
 ```
 
 
