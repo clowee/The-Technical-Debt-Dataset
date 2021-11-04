@@ -3,7 +3,7 @@
 This is the official repository of the "Technical Debt Dataset" [1]. 
 
 There are two versions of the dataset: 
-* release 1.01 (32 projects, all branches analyzed, not recommended if you need to use sonarqube data (we found some issues with the analysis timeline) 
+* release 1.01 (32 projects, all branches analyzed, not recommended if you need to use SonarQube data (we found some issues with the analysis timeline) 
 * release 2.0 (31 projects, only master branch analyzed). 
 
 * [**download**](https://github.com/clowee/The-Technical-Debt-Dataset/releases)
@@ -22,7 +22,7 @@ There are two versions of the dataset:
 
 Technical Debt Dataset is a curated dataset containing measurement data from four tools executed on all commits to enable researchers to work on a common set of data and thus compare their results.
 
-The dataset was built by extracting the projects' data and analyzing all the commit using several tools. To get the data, the projects' GitHub repositories were cloned, commit information was collected from the git log using [PyDriller](https://github.com/ishepard/pydriller), refactorings were classified using [Refactoring Miner](https://github.com/tsantalis/RefactoringMiner), and issue information was obtained by extracting issues from the Jira issue tracker. After that, code quality was inspected using two tools: Technical Debt items were analyzed with [SonarQube](https://www.sonarqube.org/), and code smells [2] and anti-patterns [3] with [Ptidej](http://www.ptidej.net/). In addition, the fault-inducing and -fixing commits were identified by applying [our implementation](https://github.com/clowee/OpenSZZ) of the SZZ algorithm [4] for version 1, and [our fork of SZZunleashed](https://github.com/clowee/SZZUnleashed) for version 2.
+The dataset was built by extracting the projects' data and analyzing all the commit using several tools. To get the data, the projects' GitHub repositories were cloned, commit information was collected from the git log using [PyDriller](https://github.com/ishepard/pydriller), refactorings were classified using [Refactoring Miner](https://github.com/tsantalis/RefactoringMiner), and issue information was obtained by extracting issues from the Jira issue tracker. After that, code quality was inspected using two tools: Technical Debt items were analyzed with [SonarQube](https://www.sonarqube.org/), and code smells [2] and anti-patterns [3] with [Ptidej](http://www.ptidej.net/). In addition, the fault-inducing and -fixing commits were identified by applying [our implementation](https://github.com/clowee/OpenSZZ) of the SZZ algorithm [4] for version 1, and [our fork of SZZUnleashed](https://github.com/clowee/SZZUnleashed) for version 2.
 
  
 
@@ -32,7 +32,7 @@ can also be exported as a CSV file by selecting "Tools" and "Export" and then ex
 
 SQL enables to easily query the data from the dataset. 
 
-Here are two simple examples: 
+Here is a simple example: 
 
 
 **Get the number of "Bug" and "Vulnerability" SonarQube issues in all the branches of a project.**
@@ -53,9 +53,10 @@ GROUP BY SONAR_ISSUES.PROJECT_ID
 
 
 
-It is important to note that the dataset (V1) has been created analyzing all the commits of each project, **without considering branches**. Moreover, the **Technical Debt items were exported as reported by the tools. We did not excluded duplications nor filtered any technical debt issues**, since we aimed at providing to the community exactly what is proided by the tools. 
+It is important to note that the dataset (V1) has been created analyzing all the commits of each project, **without considering branches**. Moreover, the **Technical Debt items were exported as reported by the tools. We did not excluded duplications nor filtered any technical debt issues**, since we aimed at providing to the community exactly what is provided by the tools. 
+
 **In V2, instead, we analyzed only the master branch.**
-If you are interested to filter issues, considering only unique Technical Debt Items, filter commits in the branch you are interested to analyze (Table GIT_COMMITS, Attrigute 'branches'). Considering all the commits, would result in duplicated items.  
+If you are interested to filter issues, considering only unique Technical Debt Items, filter commits in the branch you are interested to analyze (Table GIT_COMMITS, Attribute 'BRANCHES'). Considering all the commits would result in duplicated items.  
 
 
 ## How to cite 
@@ -80,7 +81,7 @@ Please, cite as "The Technical Debt Dataset, Version 1.0 [1]"
 **Submit New Projects**
 If you have analyzed a project with SonarQube and you are interested to share your data in our dataset, please send us an email ( davide [dot] taibi [ at ] tuni [ dot ] fi )
 
-To integrate your analysis please, report the following information 
+To integrate your analysis, please, report the following information:
 * sonarqube_version
 * project_name
 * development_language
@@ -88,7 +89,7 @@ To integrate your analysis please, report the following information
 * analyzed branch
 * jira url 
 
-We will run the SZZ tool and refactoring miner 1.0.0 on your repository and integrate your data in a new release of the dataset. 
+We will run the SZZ tool and refactoring miner on your repository and integrate your data in a new release of the dataset. 
 
 **Automate the analysi pipeline**
 We are also looking for contributors to automate the analysis pipeline. If you are interested to contribute, send us a message. 
